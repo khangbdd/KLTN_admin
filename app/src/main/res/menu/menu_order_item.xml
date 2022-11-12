@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/pending" android:id="@+id/pending" />
+    <item android:title="@string/confirmed" android:id="@+id/confirmed" />
+    <item android:title="@string/delivering" android:id="@+id/delivering"  />
+    <item android:title="@string/pass_order" android:id="@+id/success"/>
+    <item android:title="@string/cancel" android:id="@+id/cancel"/>
+</menu>

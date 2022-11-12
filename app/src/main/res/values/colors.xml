@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#33A48F</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#262626</color>
+    <!--color resource-->
+    <color name="yellow">#FFC420</color>
+    <color name="red">#F20850</color>
+    <color name="disable_pray">#ADADAD</color>
+    <color name="active_button">#060DD9</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_green">#E7F6EE</color>
+    <color name="back_ground">#F3F3FF</color>
+    <color name="dark_pray">#707070</color>
+    <color name="gray">#ABAFBC</color>
+    <color name="light_gray">#F4F6FF</color>
+    <color name="light_black">#4D5A80</color>
+    <color name="border_color">#979797</color>
+    <color name="person_color">#272422</color>
+    <color name="edit_user_detail_color">#9D9EA3</color>
+    <color name="dark_blue">#022C43</color>
+
+    <color name="kim">#F9D607</color>
+    <color name="moc">#179647</color>
+    <color name="thuy">#318BC3</color>
+    <color name="hoa">#E64125</color>
+    <color name="tho">#B76B29</color>
+</resources>

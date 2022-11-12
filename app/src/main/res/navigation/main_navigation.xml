@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.aposs_admin.ui_controller.home_fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_orderFragment"
+            app:destination="@id/orderFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderFragment"
+        android:name="com.example.aposs_admin.ui_controller.order_fragment.OrderFragment"
+        android:label="OrderFragment" >
+        <action
+            android:id="@+id/action_orderFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.example.aposs_admin.ui_controller.order_detail_fragment.OrderDetailFragment"
+        android:label="OrderDetailFragment" >
+        <argument
+            android:name="order"
+            app:argType="com.example.aposs_admin.model.Order" />
+    </fragment>
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.example.aposs_admin.ui_controller.product_fragment.ProductsFragment"
+        android:label="ProductsFragment" >
+        <action
+            android:id="@+id/action_productsFragment_to_fragmentDetailProduct"
+            app:destination="@id/fragmentDetailProduct" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDetailProduct"
+        android:name="com.example.aposs_admin.ui_controller.product_detail_fragment.FragmentDetailProduct"
+        android:label="FragmentDetailProduct" >
+        <argument
+            android:name="selectedId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullScreenImageFragment"
+        android:name="com.example.aposs_admin.ui_controller.full_image_fragment.FullScreenImageFragment"
+        android:label="FullScreenImageFragment" >
+        <argument
+            android:name="imageIndex"
+            app:argType="integer" />
+    </fragment>
+</navigation>

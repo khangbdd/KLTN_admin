@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "194134627683",
+    "project_id": "kltn-admin-5643f",
+    "storage_bucket": "kltn-admin-5643f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194134627683:android:687abac460026118b4ef56",
+        "android_client_info": {
+          "package_name": "com.example.aposs_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194134627683-0f5a42fneh5dlsfmgpik77rprerljs93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.aposs_admin",
+            "certificate_hash": "bf3b89e370af668b00a35e4a0743c47b75f29b4b"
+          }
+        },
+        {
+          "client_id": "194134627683-khngoal34lg1fej58enm1daorufo4ln8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_2lpjlP6DoKcOIeSUHMndvt4USJsgoiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194134627683-khngoal34lg1fej58enm1daorufo4ln8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
