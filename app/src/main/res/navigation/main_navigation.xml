@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_productsFragment_to_fragmentDetailProduct"
             app:destination="@id/fragmentDetailProduct" />
+        <action
+            android:id="@+id/action_productsFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailProduct"
@@ -60,4 +63,8 @@
             android:name="imageIndex"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.example.aposs_admin.ui_controller.add_product_fragment.AddProductFragment"
+        android:label="AddProductFragment" />
 </navigation>

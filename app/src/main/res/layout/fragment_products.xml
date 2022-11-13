@@ -119,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/tool_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
     <androidx.recyclerview.widget.RecyclerView
@@ -131,5 +131,21 @@
         products="@{viewModel.products}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
     </ScrollView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_complete_payment"
+        android:text="Thêm sảm phẩm mới"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -42,6 +42,9 @@ class ProductsFragment : Fragment(), ViewTreeObserver.OnScrollChangedListener  {
         binding?.back?.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding?.btnAdd?.setOnClickListener {
+            findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToAddProductFragment())
+        }
         return binding?.root!!
     }
 

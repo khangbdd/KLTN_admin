@@ -10,10 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.aposs_admin.R
-import com.example.aposs_admin.adapter.BillingItemsAdapter
-import com.example.aposs_admin.adapter.DetailProductImageViewPagerAdapter
-import com.example.aposs_admin.adapter.OrderAdapter
-import com.example.aposs_admin.adapter.ProductsAdapter
+import com.example.aposs_admin.adapter.*
 import com.example.aposs_admin.model.HomeProduct
 import com.example.aposs_admin.model.Image
 import com.example.aposs_admin.model.Order
@@ -83,4 +80,10 @@ fun bindDetailProductImageViewPager(viewPager2: ViewPager2, data: List<Image>?){
 @BindingAdapter( "indicatorSize")
 fun bindIndicatorSize(indicator: CircleIndicator3, size: Int){
     indicator.createIndicators(size , 0)
+}
+
+@BindingAdapter("list_images")
+fun bindListImagesRecyclerView(recyclerView: RecyclerView, images: ArrayList<String>?) {
+    val adapter = (recyclerView.adapter as AddImageAdapter)
+    adapter.submitList(images)
 }
