@@ -42,10 +42,10 @@ class Order(
             if (paymentStatus == PaymentStatus.Completed) {
                 return "Đã thanh toán"
             }
-            if (paymentStatus == PaymentStatus.Waiting) {
+            if (paymentStatus == PaymentStatus.Pending) {
                 return "Chờ xác nhận"
             }
-            return "Chưa thanh toán"
+            return "Chờ thanh toán"
         }
     val payingTypeString: String
         get() {
