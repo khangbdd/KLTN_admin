@@ -9,12 +9,15 @@ import com.example.aposs_admin.model.dto.DetailCategoryDTO
 import com.example.aposs_admin.model.dto.KindDTO
 import com.example.aposs_admin.network.CategoryRepository
 import com.example.aposs_admin.network.KindRepository
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.io.File
 import java.net.SocketTimeoutException
 import javax.inject.Inject
+
 
 @HiltViewModel
 class AddProductViewModel @Inject constructor(
@@ -27,6 +30,7 @@ class AddProductViewModel @Inject constructor(
     val listDisplayKind: MutableLiveData<MutableList<String>> = MutableLiveData()
     val listKind: MutableLiveData<MutableList<KindDTO>> = MutableLiveData()
     val listImages: MutableLiveData<ArrayList<String>> = MutableLiveData()
+    val listImagesPath: MutableLiveData<ArrayList<String>> = MutableLiveData()
     val name: MutableLiveData<String> = MutableLiveData()
     val price: MutableLiveData<String> = MutableLiveData()
     val quantity: MutableLiveData<String> = MutableLiveData()
@@ -34,6 +38,7 @@ class AddProductViewModel @Inject constructor(
 
     init {
         listImages.value = arrayListOf()
+        listImagesPath.value = arrayListOf()
         listDisplayCategories.value = mutableListOf()
         listCategories.value = mutableListOf()
         listDisplayKind.value = mutableListOf()
@@ -74,7 +79,7 @@ class AddProductViewModel @Inject constructor(
 
     private fun loadAllKind() {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.i("TTTTTTTT","whyyyyyyyyyyyyyyyyy1")
+            Log.i("TTTTTTTT", "whyyyyyyyyyyyyyyyyy1")
             try {
                 val response = kindRepository.getAllKind()
                 if (response.isSuccessful) {
@@ -104,7 +109,25 @@ class AddProductViewModel @Inject constructor(
         }
     }
 
-    suspend fun loadImageToFirebase() {
-
+    fun loadImageToFirebase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            var index = 1
+            listImagesPath.value!!.stream().forEach { it ->
+                val storageRef: StorageReference = FirebaseStorage.getInstance().reference
+                Log.i("TTTTTTTTTTTTT", it)
+                val imageRef = storageRef.child("${name.value}-${index}.jpeg")
+                val file = Uri.fromFile(File(it.toString()))
+                val uploadTask = imageRef.putFile(file)
+                uploadTask.addOnFailureListener { e ->
+                    e.printStackTrace()
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val downloadUri = task.result
+                        Log.i("TTTTTTTTTTTTT", downloadUri.toString())
+                    }
+                }
+                index++
+            }
+        }
     }
 }

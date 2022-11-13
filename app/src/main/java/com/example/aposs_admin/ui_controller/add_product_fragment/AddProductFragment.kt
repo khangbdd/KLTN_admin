@@ -1,26 +1,23 @@
 package com.example.aposs_admin.ui_controller.add_product_fragment
 
-import android.content.Intent
+import android.Manifest
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.addTextChangedListener
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
 import com.example.aposs_admin.adapter.AddImageAdapter
 import com.example.aposs_admin.databinding.FragmentAddProductBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class AddProductFragment : Fragment() {
@@ -47,6 +44,7 @@ class AddProductFragment : Fragment() {
         setUpListImage()
         setUpCategoriesList()
         setUpKindList()
+        setUpSaveButton()
         return binding?.root!!
     }
 
@@ -94,10 +92,25 @@ class AddProductFragment : Fragment() {
             uri?.let { imageUri ->
                 // Suppose you have an ImageView that should contain the image:
                 viewModel.addImages(imageUri)
+                viewModel.listImagesPath.value?.add("/storage/emulated/0/Download/download.jpeg")
             }
         }
         binding?.imgAdd?.setOnClickListener {
             getContent.launch("image/*")
+        }
+    }
+
+    private fun setUpSaveButton(){
+        this.activity?.let {
+            ActivityCompat.requestPermissions(
+                it, arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                ), 1
+            )
+        }
+        binding?.btnSave?.setOnClickListener {
+            viewModel.loadImageToFirebase()
         }
     }
 
