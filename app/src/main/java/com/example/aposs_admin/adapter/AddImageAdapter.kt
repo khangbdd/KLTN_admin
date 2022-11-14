@@ -8,16 +8,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aposs_admin.R
 import com.example.aposs_admin.databinding.ItemAddImageBinding
+import com.example.aposs_admin.model.LocalImage
 import java.util.zip.Inflater
 
-class AddImageAdapter: ListAdapter<String, AddImageAdapter.AddImageViewHolder>(DiffCallback.instance!!) {
+class AddImageAdapter: ListAdapter<LocalImage, AddImageAdapter.AddImageViewHolder>(DiffCallback.instance!!) {
 
-    class DiffCallback: DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+    class DiffCallback: DiffUtil.ItemCallback<LocalImage>() {
+        override fun areItemsTheSame(oldItem: LocalImage, newItem: LocalImage): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        override fun areContentsTheSame(oldItem: LocalImage, newItem: LocalImage): Boolean {
             return oldItem == newItem
         }
         companion object {
@@ -33,8 +34,8 @@ class AddImageAdapter: ListAdapter<String, AddImageAdapter.AddImageViewHolder>(D
     }
 
     class AddImageViewHolder(val binding: ItemAddImageBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(src: String) {
-            binding.src = src
+        fun bind(src: LocalImage) {
+            binding.localImage = src
         }
     }
 

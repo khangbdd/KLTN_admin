@@ -1,6 +1,8 @@
 package com.example.aposs_admin.network
 
 
+import com.example.aposs_admin.model.dto.NewProductDTO
+import com.example.aposs_admin.model.dto.NewProductImageDTO
 import com.example.aposs_admin.model.dto.ProductImageDTO
 import com.example.aposs_admin.model.dto.ProductDetailDTO
 import com.example.aposs_admin.network.service.ProductAPIService
@@ -31,5 +33,13 @@ class ProductRepository @Inject constructor() {
 
     suspend fun getProductImageById(id: Long): Response<List<ProductImageDTO>> {
         return productService.getProductImagesById(id)
+    }
+
+    suspend fun addNewProduct(newProductDTO: NewProductDTO, accessToken: String?): Response<Long> {
+        return productService.createNewProductWithDefaultSet(newProductDTO, accessToken)
+    }
+
+    suspend fun addNewProductImage(newProductImageDTO: NewProductImageDTO, accessToken: String?): Response<String> {
+        return productService.addNewImage(newProductImageDTO, accessToken)
     }
 }

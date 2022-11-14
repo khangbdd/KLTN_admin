@@ -1,13 +1,9 @@
 package com.example.aposs_admin.network.service
 
-import com.example.aposs_admin.model.dto.ProductImageDTO
-import com.example.aposs_admin.model.dto.ProductResponseDTO
-import com.example.aposs_admin.model.dto.ProductDetailDTO
+import com.example.aposs_admin.model.dto.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 interface ProductAPIService {
@@ -39,4 +35,15 @@ interface ProductAPIService {
         @Path(value = "id") id: Long
     ): Response<ProductResponseDTO>
 
+    @POST("products/with-default-set")
+    suspend fun createNewProductWithDefaultSet(
+        @Body newProductDTO: NewProductDTO,
+        @Header("Authorization") accessToken: String?
+    ): Response<Long>
+
+    @POST("products/image")
+    suspend fun addNewImage(
+        @Body newProductImageDTO: NewProductImageDTO,
+        @Header("Authorization") accessToken: String?
+    ): Response<String>
 }

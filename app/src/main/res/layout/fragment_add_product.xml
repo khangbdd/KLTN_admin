@@ -325,6 +325,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="none"
+                        android:text="@={viewModel.kind}"
                         android:padding="15dp"
                         android:textFontWeight="400" />
                 </com.google.android.material.textfield.TextInputLayout>

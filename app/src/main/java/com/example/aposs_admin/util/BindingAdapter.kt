@@ -11,10 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.aposs_admin.R
 import com.example.aposs_admin.adapter.*
-import com.example.aposs_admin.model.HomeProduct
-import com.example.aposs_admin.model.Image
-import com.example.aposs_admin.model.Order
-import com.example.aposs_admin.model.OrderBillingItem
+import com.example.aposs_admin.model.*
 import me.relex.circleindicator.CircleIndicator3
 
 @BindingAdapter("billingItemData")
@@ -83,7 +80,7 @@ fun bindIndicatorSize(indicator: CircleIndicator3, size: Int){
 }
 
 @BindingAdapter("list_images")
-fun bindListImagesRecyclerView(recyclerView: RecyclerView, images: ArrayList<String>?) {
+fun bindListImagesRecyclerView(recyclerView: RecyclerView, images: ArrayList<LocalImage>?) {
     val adapter = (recyclerView.adapter as AddImageAdapter)
     adapter.submitList(images)
 }
