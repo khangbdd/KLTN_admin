@@ -82,9 +82,11 @@ class AddProductFragment : Fragment() {
     }
 
     private fun setUpCategoriesList() {
-        val adapter = ArrayAdapter(requireContext(), R.layout.item_auto_complete, ArrayList(
-            viewModel.listDisplayCategories.value!!
-        ))
+        val adapter = ArrayAdapter(
+            requireContext(), R.layout.item_auto_complete, ArrayList(
+                viewModel.listDisplayCategories.value!!
+            )
+        )
         binding?.atcCategory?.setAdapter(adapter)
         binding?.atcCategory?.setOnItemClickListener { parent, view, position, id ->
             val it = viewModel.listCategories.value?.get(position)?.id
@@ -100,9 +102,11 @@ class AddProductFragment : Fragment() {
     }
 
     private fun setUpKindList() {
-        val adapter = ArrayAdapter(requireContext(), R.layout.item_auto_complete, ArrayList(
-            viewModel.listDisplayKind.value!!
-        ))
+        val adapter = ArrayAdapter(
+            requireContext(), R.layout.item_auto_complete, ArrayList(
+                viewModel.listDisplayKind.value!!
+            )
+        )
         binding?.atcKind?.setAdapter(adapter)
         viewModel.listDisplayKind.observe(viewLifecycleOwner) {
             adapter.clear()
@@ -116,12 +120,13 @@ class AddProductFragment : Fragment() {
     }
 
     private fun setUpAddImageButton() {
-         val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let { imageUri ->
-                val type = getFileExtension(imageUri)
-                viewModel.addImages(imageUri, type)
+        val getContent =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                uri?.let { imageUri ->
+                    val type = getFileExtension(imageUri)
+                    viewModel.addImages(imageUri, type)
+                }
             }
-        }
         binding?.imgAdd?.setOnClickListener {
             getContent.launch("image/*")
         }
@@ -147,7 +152,7 @@ class AddProductFragment : Fragment() {
 //        return result
 //    }
 
-    private fun setUpSaveButton(){
+    private fun setUpSaveButton() {
         this.activity?.let {
             ActivityCompat.requestPermissions(
                 it, arrayOf(
@@ -157,16 +162,23 @@ class AddProductFragment : Fragment() {
             )
         }
         binding?.btnSave?.setOnClickListener {
-            viewModel.requestCreateNewProduct()
+            if (viewModel.name.value == "" || viewModel.quantity.value == "" || viewModel.price.value == "" || viewModel.kind.value == "") {
+                Toast.makeText(this.requireContext(), "Thiếu thông tin", Toast.LENGTH_SHORT)
+            } else {
+                viewModel.requestCreateNewProduct()
+            }
         }
         viewModel.status.observe(viewLifecycleOwner) {
             if (it == LoadingStatus.Success) {
                 Toast.makeText(this.requireContext(), "Success", Toast.LENGTH_SHORT)
                 dialog?.dismissDialog()
                 findNavController().popBackStack()
-            } else {
+            } else if (it == LoadingStatus.Loading) {
                 Toast.makeText(this.requireContext(), "Loading", Toast.LENGTH_SHORT)
                 dialog?.startLoading()
+            } else if (it == LoadingStatus.Fail) {
+                dialog?.dismissDialog()
+                Toast.makeText(this.requireContext(), "Fail", Toast.LENGTH_SHORT)
             }
         }
     }
