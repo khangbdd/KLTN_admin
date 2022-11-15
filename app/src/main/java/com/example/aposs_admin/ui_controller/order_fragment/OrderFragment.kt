@@ -1,6 +1,7 @@
 package com.example.aposs_admin.ui_controller.order_fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,7 @@ class OrderFragment : Fragment() {
             }
         }, object : OrderAdapter.OnConfirmPaymentClick {
             override fun onConfirmPaymentClick(orderId: Long, orderStatus: OrderStatus?) {
+                Log.i("TTTTTTTTT", orderStatus.toString())
                 if (orderStatus != null) {
                     viewModel.confirmCompletedPayment(orderId, orderStatus)
                 }

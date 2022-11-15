@@ -37,11 +37,11 @@ class AddProductViewModel @Inject constructor(
     val listImages: MutableLiveData<ArrayList<LocalImage>> = MutableLiveData()
     val listImagesUrl: MutableLiveData<ArrayList<String>> = MutableLiveData()
     val listName: MutableLiveData<ArrayList<String>> = MutableLiveData()
-    val name: MutableLiveData<String> = MutableLiveData()
-    val price: MutableLiveData<String> = MutableLiveData()
-    val quantity: MutableLiveData<String> = MutableLiveData()
-    val description: MutableLiveData<String> = MutableLiveData()
-    val kind: MutableLiveData<String> = MutableLiveData()
+    val name: MutableLiveData<String> = MutableLiveData("")
+    val price: MutableLiveData<String> = MutableLiveData("")
+    val quantity: MutableLiveData<String> = MutableLiveData("")
+    val description: MutableLiveData<String> = MutableLiveData("")
+    val kind: MutableLiveData<String> = MutableLiveData("")
     var token: TokenDTO? = null
 
     init {
@@ -117,19 +117,28 @@ class AddProductViewModel @Inject constructor(
         }
     }
 
-    fun loadImageToFirebase() {
+    fun loadImageToFirebase(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             var index = 1
             listImages.value!!.stream().forEach { it ->
                 val storageRef: StorageReference = FirebaseStorage.getInstance().reference
-                val imageName = "${name.value}-${index}.${it.type.toString()}"
+                val imageName = "img${productId}-${index}.${it.type.toString()}"
                 val imageRef = storageRef.child(imageName)
                 val uploadTask = imageRef.putFile(Uri.parse(it.imageUri.toString()))
                 uploadTask.addOnFailureListener { e ->
                     e.printStackTrace()
+                    status.postValue(LoadingStatus.Fail)
                 }.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        val name = task.result.metadata?.name.toString()
+                        val priority =
+                            name.substring(name.indexOf('-') + 1, name.indexOf('.')).toIntOrNull()
                         listImagesUrl.value?.add("https://firebasestorage.googleapis.com/v0/b/kltn-admin-5643f.appspot.com/o/${imageName}?alt=media")
+                        val url =
+                            "https://firebasestorage.googleapis.com/v0/b/kltn-admin-5643f.appspot.com/o/${imageName}?alt=media"
+                        priority?.let { prio ->
+                            requestSaveImageUrl(productId, url, prio)
+                        }
                     }
                 }
                 index++
@@ -137,48 +146,49 @@ class AddProductViewModel @Inject constructor(
         }
     }
 
-    fun requestSaveImageUrl(productId: Long) {
+    fun requestSaveImageUrl(productId: Long, url: String, priority: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val scope = this
-            var index = 0
-            for(url in listImagesUrl.value!!){
-                val newProductImageDTO = createNewProductImageDTO(productId, url, index)
-                try {
-                    Log.i("TTTTTTTTTT", "loading")
-                    val response = productRepository.addNewProductImage(newProductImageDTO, "${token?.tokenType.toString()} ${token?.accessToken.toString()}")
-                    Log.i("TTTTTTTTTT", "done 1")
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+            val newProductImageDTO = createNewProductImageDTO(productId, url, priority)
+            try {
+                Log.i("imagegggggg", priority.toString())
+                val response = productRepository.addNewProductImage(
+                    newProductImageDTO,
+                    "${token?.tokenType.toString()} ${token?.accessToken.toString()}"
+                )
+                Log.i("imagegggggg", response.isSuccessful.toString())
+                Log.i("imagegggggg", response.code().toString())
+                Log.i("imagegggggg", response.message().toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            status.postValue(LoadingStatus.Success)
         }
     }
 
-    val status : MutableLiveData<LoadingStatus> = MutableLiveData()
+    val status: MutableLiveData<LoadingStatus> = MutableLiveData()
     fun requestCreateNewProduct() {
         status.postValue(LoadingStatus.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Log.i("TTTTTTTTTT", "start")
                 val newProductDTO = createNewProductDTO()
-                val responseProduct = productRepository.addNewProduct(newProductDTO, "${token?.tokenType.toString()} ${token?.accessToken.toString()}")
-                Log.i("TTTTTTTTTT", responseProduct.body().toString())
+                val responseProduct = productRepository.addNewProduct(
+                    newProductDTO,
+                    "${token?.tokenType.toString()} ${token?.accessToken.toString()}"
+                )
                 if (responseProduct.isSuccessful) {
                     val newProductId = responseProduct.body()
                     if (newProductId != null) {
-                        loadImageToFirebase()
-                        requestSaveImageUrl(newProductId)
-                        Log.i("TTTTTTTTTT", "almost")
+                        loadImageToFirebase(newProductId)
                     }
+                } else {
+                    status.postValue(LoadingStatus.Fail)
                 }
             } catch (e: Exception) {
-                Log.i("TTTTTTTTTT", "fail")
-                if(e is SocketTimeoutException) {
+                if (e is SocketTimeoutException) {
                     requestCreateNewProduct()
                 } else {
                     e.printStackTrace()
                 }
+                status.postValue(LoadingStatus.Fail)
             }
         }
     }
@@ -205,11 +215,15 @@ class AddProductViewModel @Inject constructor(
         )
     }
 
-    private fun createNewProductImageDTO(productId: Long, url: String, priority: Int): NewProductImageDTO {
-        return NewProductImageDTO (
-            productId = productId,
+    private fun createNewProductImageDTO(
+        productId: Long,
+        url: String,
+        priority: Int
+    ): NewProductImageDTO {
+        return NewProductImageDTO(
             imageUrl = url,
-            priority = priority
+            priority = priority,
+            productId = productId,
         )
     }
 }

@@ -21,7 +21,8 @@ interface OrderService {
     ): Response<String>
 
     @PUT("order/confirm-completed-payment/{id}")
-    fun confirmCompletedPayment(
-        @Path(value = "id") orderId: Long
+    suspend fun confirmCompletedPayment(
+        @Path(value = "id") orderId: Long,
+        @Header("Authorization") accessToken: String?
     ): Response<String>
 }

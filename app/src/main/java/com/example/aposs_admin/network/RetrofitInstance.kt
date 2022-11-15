@@ -29,7 +29,6 @@ object RetrofitInstance {
             val client = OkHttpClient.Builder().apply {
                 addInterceptor(MyInterceptor())
             }.build()
-
             val moshi = Moshi.Builder()
                 .add(KotlinJsonAdapterFactory())
                 .add(Date::class.java, DateJsonAdapter())
