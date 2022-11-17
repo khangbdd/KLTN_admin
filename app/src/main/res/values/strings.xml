@@ -162,6 +162,13 @@
     <string name="your_suitable">Sự tương hợp của bạn với sản phẩm</string>
     <string name="gi_i_th_ch">Giải thích</string>
     <string name="th_m_l_i_khuy_n_cho_ng_i_m_nh">Thêm lời khuyên cho người mệnh</string>
+    <string name="manage_banking_information">Quản lý thông tin thanh toán</string>
+    <string name="save">Lưu</string>
+    <string name="bank_name">Tên ngân hàng:</string>
+    <string name="branch_name">Chi nhánh:</string>
+    <string name="accountNumber">Số tài khoản</string>
+    <string name="receiverName">Tên người nhận:</string>
+    <string name="bankingContent">Nội dung chuyển khoản:</string>
 
 
 </resources>
