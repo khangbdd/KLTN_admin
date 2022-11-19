@@ -215,7 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/available_quantities"
+                    android:text="Số lượng tồn kho: "
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -229,14 +229,39 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@{String.valueOf(viewModel.selectedProductQuantities)}"
+                    android:text="@{String.valueOf(viewModel.selectedProduct.availableQuantities)}"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textAlignment="viewStart"
                     app:layout_constraintLeft_toRightOf="@id/text_quantity"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_purchase" />
+                <TextView
+                    android:id="@+id/text_kind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Loại hàng: "
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/kind"
+                    app:layout_constraintStart_toStartOf="@+id/guideline2"
+                    app:layout_constraintTop_toBottomOf="@id/text_quantity" />
 
+                <TextView
+                    android:id="@+id/kind"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{viewModel.selectedProduct.kind}"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintLeft_toRightOf="@id/text_kind"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_quantity" />
                 <TextView
                     android:id="@+id/text_description"
                     android:layout_width="wrap_content"
@@ -251,7 +276,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
-                    app:layout_constraintTop_toBottomOf="@id/text_quantity" />
+                    app:layout_constraintTop_toBottomOf="@id/text_kind" />
 
                 <TextView
                     android:id="@+id/description"

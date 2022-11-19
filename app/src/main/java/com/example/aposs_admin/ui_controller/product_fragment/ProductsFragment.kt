@@ -39,12 +39,8 @@ class ProductsFragment : Fragment(), ViewTreeObserver.OnScrollChangedListener  {
             }
         })
         binding?.scrollView?.viewTreeObserver?.addOnScrollChangedListener(this)
-        binding?.back?.setOnClickListener {
-            findNavController().popBackStack()
-        }
-        binding?.btnAdd?.setOnClickListener {
-            findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToAddProductFragment())
-        }
+        setUpButton()
+        setUpSearchFilter()
         return binding?.root!!
     }
 
@@ -62,5 +58,20 @@ class ProductsFragment : Fragment(), ViewTreeObserver.OnScrollChangedListener  {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    private fun setUpButton() {
+        binding?.back?.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding?.btnAdd?.setOnClickListener {
+            findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToAddProductFragment())
+        }
+    }
+
+    private fun setUpSearchFilter() {
+        viewModel.searchText.observe(viewLifecycleOwner) {
+            viewModel.filter()
+        }
     }
 }

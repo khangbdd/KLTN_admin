@@ -1,5 +1,6 @@
 package com.example.aposs_admin.ui_controller.product_fragment
 
+import android.icu.text.StringSearch
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,16 +25,17 @@ class ProductsViewModel @Inject constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {
 
-    private val _products: MutableLiveData<ArrayList<HomeProduct>> = MutableLiveData()
+    private val _products: MutableLiveData<ArrayList<HomeProduct>> = MutableLiveData(arrayListOf())
     val products: LiveData<ArrayList<HomeProduct>>
         get() = _products
+    val displayProducts: MutableLiveData<ArrayList<HomeProduct>> = MutableLiveData(arrayListOf())
     private var currentPage = 1
     private var isLastPage = false
     private var _status = MutableLiveData<LoadingStatus>()
     val status: LiveData<LoadingStatus> get() = _status
+    val searchText: MutableLiveData<String> = MutableLiveData("")
 
     init {
-        _products.value = arrayListOf()
         loadProducts()
     }
 
@@ -53,6 +55,14 @@ class ProductsViewModel @Inject constructor(
                             )
                         withContext(Dispatchers.Main) {
                             _products.postValue(
+                                ArrayList(
+                                    concatenate(
+                                        _products.value!!,
+                                        productsInCurrentPage
+                                    )
+                                )
+                            )
+                            displayProducts.postValue(
                                 ArrayList(
                                     concatenate(
                                         _products.value!!,
@@ -95,5 +105,17 @@ class ProductsViewModel @Inject constructor(
             result.addAll(list)
         }
         return result
+    }
+
+    fun filter() {
+        val listTempt = arrayListOf<HomeProduct>()
+        products.value?.stream()?.forEach { product ->
+            searchText.value?.let { searchText ->
+                if (product.name.contains(searchText, true)) {
+                    listTempt.add(product)
+                }
+            }
+        }
+        displayProducts.value = listTempt
     }
 }
