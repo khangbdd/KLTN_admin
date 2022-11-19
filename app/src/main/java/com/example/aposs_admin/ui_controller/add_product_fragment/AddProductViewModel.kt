@@ -120,6 +120,7 @@ class AddProductViewModel @Inject constructor(
     fun loadImageToFirebase(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             var index = 1
+            var max = listImages.value!!.size
             listImages.value!!.stream().forEach { it ->
                 val storageRef: StorageReference = FirebaseStorage.getInstance().reference
                 val imageName = "img${productId}-${index}.${it.type.toString()}"
@@ -137,7 +138,7 @@ class AddProductViewModel @Inject constructor(
                         val url =
                             "https://firebasestorage.googleapis.com/v0/b/kltn-admin-5643f.appspot.com/o/${imageName}?alt=media"
                         priority?.let { prio ->
-                            requestSaveImageUrl(productId, url, prio)
+                            requestSaveImageUrl(productId, url, prio, max)
                         }
                     }
                 }
@@ -146,18 +147,19 @@ class AddProductViewModel @Inject constructor(
         }
     }
 
-    fun requestSaveImageUrl(productId: Long, url: String, priority: Int) {
+    fun requestSaveImageUrl(productId: Long, url: String, priority: Int, end: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val newProductImageDTO = createNewProductImageDTO(productId, url, priority)
             try {
-                Log.i("imagegggggg", priority.toString())
                 val response = productRepository.addNewProductImage(
                     newProductImageDTO,
                     "${token?.tokenType.toString()} ${token?.accessToken.toString()}"
                 )
-                Log.i("imagegggggg", response.isSuccessful.toString())
-                Log.i("imagegggggg", response.code().toString())
-                Log.i("imagegggggg", response.message().toString())
+                if (response.isSuccessful) {
+                    if (end == priority) {
+                        status.postValue(LoadingStatus.Success)
+                    }
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -225,5 +227,11 @@ class AddProductViewModel @Inject constructor(
             priority = priority,
             productId = productId,
         )
+    }
+
+    fun deleteImage(position: Int) {
+        val listTempt = listImages.value
+        listTempt!!.removeAt(position)
+        listImages.value =listTempt
     }
 }

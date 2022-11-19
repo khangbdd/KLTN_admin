@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -67,4 +70,9 @@
         android:id="@+id/addProductFragment"
         android:name="com.example.aposs_admin.ui_controller.add_product_fragment.AddProductFragment"
         android:label="AddProductFragment" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.aposs_admin.ui_controller.activity.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>

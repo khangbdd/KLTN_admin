@@ -10,7 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
 import com.example.aposs_admin.databinding.FragmentHomeBinding
+import com.example.aposs_buyer.responsitory.database.AccountDatabase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -29,6 +31,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         setUpNavigation()
+        setUpOptionsButton()
         return binding?.root!!
     }
 
@@ -54,5 +57,28 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    private fun setUpOptionsButton() {
+        binding?.let {
+            with(it) {
+                options.setOnClickListener {
+                    if (lnOptions.visibility == View.GONE)
+                    {
+                        lnOptions.visibility = View.VISIBLE
+                    } else {
+                        lnOptions.visibility = View.GONE
+                    }
+                }
+                parent.setOnClickListener {
+                    lnOptions.visibility = View.GONE
+                }
+                logout.setOnClickListener {
+                    val accountDao = AccountDatabase.getInstance(requireContext()).accountDao
+                    accountDao.getAccount()?.let { it1 -> accountDao.deleteAccount(it1) }
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToLoginActivity())
+                }
+            }
+        }
     }
 }

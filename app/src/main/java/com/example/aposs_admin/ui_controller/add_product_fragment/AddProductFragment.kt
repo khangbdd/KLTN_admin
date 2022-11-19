@@ -116,7 +116,12 @@ class AddProductFragment : Fragment() {
     }
 
     private fun setUpListImage() {
-        binding?.rcImages?.adapter = AddImageAdapter()
+        binding?.rcImages?.adapter = AddImageAdapter(object : AddImageAdapter.OnCancelClick{
+            override fun onCancelClick(position: Int) {
+                viewModel.deleteImage(position)
+            }
+
+        })
     }
 
     private fun setUpAddImageButton() {
@@ -125,6 +130,7 @@ class AddProductFragment : Fragment() {
                 uri?.let { imageUri ->
                     val type = getFileExtension(imageUri)
                     viewModel.addImages(imageUri, type)
+                    viewModel.listImages.value?.size?.let { binding?.rcImages?.layoutManager?.scrollToPosition(it-1) }
                 }
             }
         binding?.imgAdd?.setOnClickListener {
@@ -163,22 +169,22 @@ class AddProductFragment : Fragment() {
         }
         binding?.btnSave?.setOnClickListener {
             if (viewModel.name.value == "" || viewModel.quantity.value == "" || viewModel.price.value == "" || viewModel.kind.value == "") {
-                Toast.makeText(this.requireContext(), "Thiếu thông tin", Toast.LENGTH_SHORT)
+                Toast.makeText(this.requireContext(), "Thiếu thông tin", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.requestCreateNewProduct()
             }
         }
         viewModel.status.observe(viewLifecycleOwner) {
             if (it == LoadingStatus.Success) {
-                Toast.makeText(this.requireContext(), "Success", Toast.LENGTH_SHORT)
+                Toast.makeText(this.requireContext(), "Success", Toast.LENGTH_SHORT).show()
                 dialog?.dismissDialog()
                 findNavController().popBackStack()
             } else if (it == LoadingStatus.Loading) {
-                Toast.makeText(this.requireContext(), "Loading", Toast.LENGTH_SHORT)
+                Toast.makeText(this.requireContext(), "Loading", Toast.LENGTH_SHORT).show()
                 dialog?.startLoading()
             } else if (it == LoadingStatus.Fail) {
                 dialog?.dismissDialog()
-                Toast.makeText(this.requireContext(), "Fail", Toast.LENGTH_SHORT)
+                Toast.makeText(this.requireContext(), "Fail", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -60,7 +60,6 @@ class OrderFragment : Fragment() {
             }
         }, object : OrderAdapter.OnConfirmPaymentClick {
             override fun onConfirmPaymentClick(orderId: Long, orderStatus: OrderStatus?) {
-                Log.i("TTTTTTTTT", orderStatus.toString())
                 if (orderStatus != null) {
                     viewModel.confirmCompletedPayment(orderId, orderStatus)
                 }

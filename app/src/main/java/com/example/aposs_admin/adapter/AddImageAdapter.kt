@@ -11,7 +11,11 @@ import com.example.aposs_admin.databinding.ItemAddImageBinding
 import com.example.aposs_admin.model.LocalImage
 import java.util.zip.Inflater
 
-class AddImageAdapter: ListAdapter<LocalImage, AddImageAdapter.AddImageViewHolder>(DiffCallback.instance!!) {
+class AddImageAdapter(private val onCancelClick: OnCancelClick): ListAdapter<LocalImage, AddImageAdapter.AddImageViewHolder>(DiffCallback.instance!!) {
+
+    interface OnCancelClick {
+        fun onCancelClick(position: Int)
+    }
 
     class DiffCallback: DiffUtil.ItemCallback<LocalImage>() {
         override fun areItemsTheSame(oldItem: LocalImage, newItem: LocalImage): Boolean {
@@ -48,5 +52,9 @@ class AddImageAdapter: ListAdapter<LocalImage, AddImageAdapter.AddImageViewHolde
     override fun onBindViewHolder(holder: AddImageViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
+        holder.binding.cancel.setOnClickListener {
+            onCancelClick.onCancelClick(position)
+            this.notifyDataSetChanged()
+        }
     }
 }
