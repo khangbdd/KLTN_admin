@@ -67,6 +67,7 @@ class DetailProductViewModel @Inject constructor(
             productDetailDTO.description,
             productDetailDTO.quantity,
             productDetailDTO.kindName,
+            productDetailDTO.kindId
         )
     }
 

@@ -44,7 +44,7 @@ class FragmentDetailProduct : Fragment() {
         if (selectedProductId != -1L) {
             viewModel.setSelectedProductId(selectedProductId)
         }
-        setBackButton()
+        setUpButton()
         setUpViewPager()
         setUpIndicator()
         onDetailProductChange()
@@ -65,9 +65,18 @@ class FragmentDetailProduct : Fragment() {
         binding?.images?.adapter = imagesAdapter
     }
 
-    private fun setBackButton() {
+    private fun setUpButton() {
         binding?.back?.setOnClickListener {
             findNavController().popBackStack()
+        }
+        binding?.editProduct?.setOnClickListener {
+            viewModel.selectedProduct.value?.let { selectedProduct ->
+                viewModel.selectedProductImages.value?.toTypedArray()?.let { images ->
+                    findNavController().navigate(FragmentDetailProductDirections.actionFragmentDetailProductToEditProductFragment(
+                        images,
+                        selectedProduct))
+                }
+            }
         }
     }
 

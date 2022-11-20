@@ -323,7 +323,7 @@ app:layout_constraintRight_toRightOf="parent">
 <androidx.appcompat.widget.AppCompatButton
     style="@style/Widget.AppCompat.Button.Borderless"
     android:background="@drawable/bg_complete_payment"
-    android:id="@+id/addToCart"
+    android:id="@+id/edit_product"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:text="Chỉnh sửa thông tin"
