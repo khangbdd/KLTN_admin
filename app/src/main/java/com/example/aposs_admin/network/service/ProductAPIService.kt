@@ -46,4 +46,18 @@ interface ProductAPIService {
         @Body newProductImageDTO: NewProductImageDTO,
         @Header("Authorization") accessToken: String?
     ): Response<String>
+
+    @PUT("products/{id}")
+    suspend fun updateProduct(
+        @Path(value = "id") id: Long,
+        @Body newProductDTO: NewProductDTO,
+        @Header("Authorization") accessToken: String?
+    ): Response<Unit>
+
+    @POST("products/image/{id}")
+    suspend fun updateProductImage(
+        @Path(value = "id") id: Long,
+        @Body newProductImageDTO: NewProductImageDTO,
+        @Header("Authorization") accessToken: String?
+    ): Response<Unit>
 }
