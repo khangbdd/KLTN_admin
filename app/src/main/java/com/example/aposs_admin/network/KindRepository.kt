@@ -14,4 +14,8 @@ class KindRepository @Inject constructor() {
     suspend fun getAllKind() :Response<List<KindDTO>> {
         return kindService.getAllKind()
     }
+
+    suspend fun getAllSubCategoryByCategoryId(categoryId: Long): Response<List<KindDTO>>{
+        return kindService.getAllKind(categoryId)
+    }
 }

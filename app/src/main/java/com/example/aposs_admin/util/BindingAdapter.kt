@@ -1,9 +1,8 @@
 package com.example.aposs_admin.util
 
 import android.net.Uri
-import android.os.Build
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -83,4 +82,23 @@ fun bindIndicatorSize(indicator: CircleIndicator3, size: Int){
 fun bindListImagesRecyclerView(recyclerView: RecyclerView, images: ArrayList<LocalImage>?) {
     val adapter = (recyclerView.adapter as AddImageAdapter)
     adapter.submitList(images)
+}
+
+@BindingAdapter("list_category")
+fun bindListCategoryRecyclerView(recyclerView: RecyclerView, categoryNames: List<String>?){
+    val adapter = recyclerView.adapter as CategoryAndSubcategoryAdapter
+    adapter.submitList(categoryNames)
+}
+@BindingAdapter("category_images")
+fun bindListCategoryImageRecyclerView(recyclerView: RecyclerView, images: List<Image>?){
+    val adapter = recyclerView.adapter as CategoryAndSubCategoryImageAdapter
+    adapter.submitList(images)
+}
+
+@BindingAdapter("totalItemInformation")
+fun bindingAdditionalText(textView:TextView, additionalInformation: String?){
+    if (additionalInformation != null){
+        val textViewText = textView.text.toString() + "(" + additionalInformation + "):"
+        textView.text = textViewText
+    }
 }

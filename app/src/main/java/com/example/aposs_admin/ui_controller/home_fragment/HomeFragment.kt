@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
 import com.example.aposs_admin.databinding.FragmentHomeBinding
 import com.example.aposs_admin.ui_controller.activity.BankingInformationActivity
+import com.example.aposs_admin.ui_controller.activity.CategoryActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +38,10 @@ class HomeFragment : Fragment() {
     private fun setUpNavigation() {
         binding?.btnBank?.setOnClickListener {
             startActivity(Intent(this.requireContext(), BankingInformationActivity::class.java))
+        }
+
+        binding?.btnCategory?.setOnClickListener {
+            startActivity(Intent(this.requireContext(), CategoryActivity::class.java))
         }
 
         binding?.btnProduct?.setOnClickListener {

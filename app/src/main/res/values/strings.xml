@@ -126,7 +126,7 @@
     <string name="ward_tag">Phường/ xã</string>
     <string name="address_lane_tag">Chi tiết</string>
     <string name="delete">Xóa</string>
-    <string name="edit">Sửa</string>
+    <string name="edit">Chỉnh sửa</string>
     <string name="submit">Lưu</string>
     <string name="check_out">Thanh toán</string>
     <string name="title_activity_cart">CartActivity</string>
