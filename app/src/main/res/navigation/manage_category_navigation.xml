@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/manage_category_navigation"
+    app:startDestination="@id/allCategoryFragment">
+
+    <fragment
+        android:id="@+id/allCategoryFragment"
+        android:name="com.example.aposs_admin.ui_controller.manage_category_fragment.AllCategoryFragment"
+        android:label="fragment_all_category"
+        tools:layout="@layout/fragment_all_category" >
+        <action
+            android:id="@+id/action_allCategoryFragment_to_detailCategoryFragment"
+            app:destination="@id/detailCategoryFragment" />
+        <action
+            android:id="@+id/action_allCategoryFragment_to_createCategoryFragment"
+            app:destination="@id/createCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCategoryFragment"
+        android:name="com.example.aposs_admin.ui_controller.manage_category_fragment.DetailCategoryFragment"
+        android:label="fragment_detail_category"
+        tools:layout="@layout/fragment_detail_category" >
+        <action
+            android:id="@+id/action_detailCategoryFragment_to_createCategoryFragment"
+            app:destination="@id/createCategoryFragment" />
+        <action
+            android:id="@+id/action_detailCategoryFragment_to_detailSubcategoryFragment"
+            app:destination="@id/detailSubcategoryFragment" />
+        <action
+            android:id="@+id/action_detailCategoryFragment_to_createSubcategoryFragment"
+            app:destination="@id/createSubcategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCategoryFragment"
+        android:name="com.example.aposs_admin.ui_controller.manage_category_fragment.CreateCategoryFragment"
+        android:label="fragment_create_category"
+        tools:layout="@layout/fragment_create_category" >
+        <argument
+            android:name="id"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailSubcategoryFragment"
+        android:name="com.example.aposs_admin.ui_controller.manage_category_fragment.DetailSubcategoryFragment"
+        android:label="fragment_detail_subcategory"
+        tools:layout="@layout/fragment_detail_subcategory" >
+        <action
+            android:id="@+id/action_detailSubcategoryFragment_to_createSubcategoryFragment"
+            app:destination="@id/createSubcategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createSubcategoryFragment"
+        android:name="com.example.aposs_admin.ui_controller.manage_category_fragment.CreateSubcategoryFragment"
+        android:label="fragment_create_subcategory"
+        tools:layout="@layout/fragment_create_subcategory" >
+        <argument
+            android:name="subcategoryID"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_createSubcategoryFragment_to_detailCategoryFragment"
+            app:destination="@id/detailCategoryFragment" />
+    </fragment>
+</navigation>
