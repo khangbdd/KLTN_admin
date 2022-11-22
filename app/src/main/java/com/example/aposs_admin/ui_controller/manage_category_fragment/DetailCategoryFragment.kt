@@ -35,14 +35,22 @@ class DetailCategoryFragment : Fragment(), CategoryAndSubcategoryAdapter.OnClick
         binding.subcategory.adapter = subcategoryAdapter
         binding.listImage.adapter = categoryImageAdapter
 
+        binding.createSubcategory.setOnClickListener {
+            findNavController().navigate(DetailCategoryFragmentDirections.actionDetailCategoryFragmentToCreateSubcategoryFragment())
+        }
+
+
 
         binding.back.setOnClickListener {
             findNavController().popBackStack()
         }
+
+
         return binding.root
     }
 
     override fun onClick(position: Int) {
-
+        viewModel.setCurrentSubcategory(position)
+        findNavController().navigate(DetailCategoryFragmentDirections.actionDetailCategoryFragmentToDetailSubcategoryFragment())
     }
 }

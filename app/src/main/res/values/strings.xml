@@ -127,6 +127,7 @@
     <string name="address_lane_tag">Chi tiết</string>
     <string name="delete">Xóa</string>
     <string name="edit">Chỉnh sửa</string>
+    <string name="add_new"><u>Thêm mới</u></string>
     <string name="submit">Lưu</string>
     <string name="check_out">Thanh toán</string>
     <string name="title_activity_cart">CartActivity</string>
@@ -169,6 +170,7 @@
     <string name="accountNumber">Số tài khoản</string>
     <string name="receiverName">Tên người nhận:</string>
     <string name="bankingContent">Nội dung chuyển khoản:</string>
+    <string name="empty_subcategory">Không có danh mục con nào,\nthêm mới ngay!</string>
 
 
 </resources>

@@ -63,7 +63,7 @@ fun bindOrderRecyclerView(recyclerView: RecyclerView, orders: ArrayList<Order?>)
 }
 
 @BindingAdapter("products")
-fun bindProductsRecyclerView(recyclerView: RecyclerView, products: ArrayList<HomeProduct>?) {
+fun bindProductsRecyclerView(recyclerView: RecyclerView, products: List<HomeProduct>?) {
     val adapter = (recyclerView.adapter as ProductsAdapter)
     adapter.submitList(products)
 }
@@ -98,7 +98,7 @@ fun bindListCategoryImageRecyclerView(recyclerView: RecyclerView, images: List<I
 @BindingAdapter("totalItemInformation")
 fun bindingAdditionalText(textView:TextView, additionalInformation: String?){
     if (additionalInformation != null){
-        val textViewText = textView.text.toString() + "(" + additionalInformation + "):"
+        val textViewText = textView.text.toString() + " (" + additionalInformation + "):"
         textView.text = textViewText
     }
 }

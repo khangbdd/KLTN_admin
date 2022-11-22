@@ -33,6 +33,7 @@ class AllCategoryFragment : Fragment(), CategoryAndSubcategoryAdapter.OnClickLis
         binding.back.setOnClickListener {
             requireActivity().finish()
         }
+
         binding.createNewCategory.setOnClickListener {
             findNavController().navigate(AllCategoryFragmentDirections.actionAllCategoryFragmentToCreateCategoryFragment())
         }

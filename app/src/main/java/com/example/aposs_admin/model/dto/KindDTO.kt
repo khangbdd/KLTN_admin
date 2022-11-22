@@ -2,12 +2,12 @@ package com.example.aposs_admin.model.dto
 
 
 data class KindDTO(
-    val id: Long,
-    val name:String,
-    val totalPurchases: Int,
-    val totalProducts: Int,
-    val rating: Float,
-    val image: String,
-    val products: List<ProductDTO>,
-    val category: Long,
+    var id: Long = -1L,
+    var name:String = "",
+    var totalPurchases: Int = 0,
+    var totalProducts: Int = 0,
+    var rating: Float = 3.0F,
+    var image: String = "",
+    var products: List<ProductDTO> = mutableListOf(),
+    var category: Long  = 3L,
 )
