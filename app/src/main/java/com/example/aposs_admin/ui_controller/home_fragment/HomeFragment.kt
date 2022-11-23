@@ -34,6 +34,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         setUpNavigation()
+        setUpOptionsButton()
         return binding?.root!!
     }
 
