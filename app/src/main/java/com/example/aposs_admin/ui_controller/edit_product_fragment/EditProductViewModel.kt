@@ -11,6 +11,7 @@ import com.example.aposs_admin.model.Image
 import com.example.aposs_admin.model.LocalImage
 import com.example.aposs_admin.model.ProductDetail
 import com.example.aposs_admin.model.dto.*
+import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.CategoryRepository
 import com.example.aposs_admin.network.KindRepository
 import com.example.aposs_admin.network.ProductRepository
@@ -31,6 +32,7 @@ class EditProductViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val kindRepository: KindRepository,
     private val productRepository: ProductRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     var selectedProduct: ProductDetail? = null
@@ -243,6 +245,16 @@ class EditProductViewModel @Inject constructor(
                 )
                 if (response.isSuccessful) {
                     status.postValue(LoadingStatus.Success)
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            requestSaveImageUrl(productId)
+                        } else {
+                            status.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+                        status.postValue(LoadingStatus.Fail)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -267,10 +279,15 @@ class EditProductViewModel @Inject constructor(
                         loadImageToFirebase(selectedProduct!!.id)
                     }
                 } else {
-                    Log.i("TTTTTTTTTTTTTTTT", responseProduct.message())
-                    Log.i("TTTTTTTTTTTTTTTT", responseProduct.body().toString())
-                    Log.i("TTTTTTTTTTTTTTTT", responseProduct.code().toString())
-                    status.postValue(LoadingStatus.Fail)
+                    if (responseProduct.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            requestCreateNewProduct()
+                        } else {
+                            status.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+                        status.postValue(LoadingStatus.Fail)
+                    }
                 }
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {

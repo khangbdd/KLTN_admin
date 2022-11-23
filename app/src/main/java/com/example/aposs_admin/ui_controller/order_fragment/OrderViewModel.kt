@@ -11,7 +11,9 @@ import com.example.aposs_admin.model.dto.TokenDTO
 import com.example.aposs_admin.model.Image
 import com.example.aposs_admin.model.Order
 import com.example.aposs_admin.model.OrderBillingItem
+import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.OrderRepository
+import com.example.aposs_admin.util.LoadingStatus
 import com.example.aposs_admin.util.OrderStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrderViewModel @Inject constructor(
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
+    private val authRepository: AuthRepository
     ) : ViewModel() {
     var token: TokenDTO? = null
     var lstDisplay: MutableLiveData<ArrayList<Order>> = MutableLiveData<ArrayList<Order>>()
@@ -59,6 +62,16 @@ class OrderViewModel @Inject constructor(
                         Log.i("TTTTTTTTT", it.isOnlinePayment.toString())
                     }
                     lstDisplay.postValue(listAttempt)
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            loadOrder(orderStatus)
+                        } else {
+//                            loadStatus.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+//                        loadStatus.postValue(LoadingStatus.Fail)
+                    }
                 }
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {
@@ -76,6 +89,16 @@ class OrderViewModel @Inject constructor(
                 val response = orderRepository.confirmCompletedPayment(orderId, "${token?.tokenType} ${token?.accessToken}")
                 if (response.isSuccessful) {
                     loadOrder(choseOrderStatus)
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            confirmCompletedPayment(orderId, choseOrderStatus)
+                        } else {
+//                            loadStatus.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+//                        loadStatus.postValue(LoadingStatus.Fail)
+                    }
                 }
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {
@@ -102,6 +125,16 @@ class OrderViewModel @Inject constructor(
                     }
                     if (orderStatus === OrderStatus.Delivering) {
                         loadOrder(OrderStatus.Confirmed)
+                    }
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            setOrderStatus(id, orderStatus)
+                        } else {
+//                            loadStatus.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+//                        loadStatus.postValue(LoadingStatus.Fail)
                     }
                 }
             } catch (e:Exception) {

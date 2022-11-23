@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aposs_admin.model.LocalImage
 import com.example.aposs_admin.model.dto.*
+import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.CategoryRepository
 import com.example.aposs_admin.network.KindRepository
 import com.example.aposs_admin.network.ProductRepository
@@ -30,6 +31,7 @@ class AddProductViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val kindRepository: KindRepository,
     private val productRepository: ProductRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     val listDisplayCategories: MutableLiveData<MutableList<String>> = MutableLiveData()
@@ -77,6 +79,16 @@ class AddProductViewModel @Inject constructor(
                         }
                         listDisplayCategories.postValue(listTempt)
                     }
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            loadAllCategories()
+                        } else {
+//                            loadStatus.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+//                        loadStatus.postValue(LoadingStatus.Fail)
+                    }
                 }
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {
@@ -95,6 +107,16 @@ class AddProductViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         listKind.postValue(response.body()!! as MutableList<KindDTO>?)
+                    }
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            loadAllKind()
+                        } else {
+//                            loadStatus.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+//                        loadStatus.postValue(LoadingStatus.Fail)
                     }
                 }
             } catch (e: Exception) {
@@ -147,7 +169,7 @@ class AddProductViewModel @Inject constructor(
     private val numLoadedDatabase = AtomicInteger(0)
     fun requestSaveImageUrl(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            var index = 0
+            var index = 1
             for (url in listImageUrl) {
                 val newProductImageDTO = createNewProductImageDTO(productId, url, index)
                 try {
@@ -159,6 +181,16 @@ class AddProductViewModel @Inject constructor(
                         numLoadedDatabase.incrementAndGet()
                         if (numLoadedDatabase.get() == listImageUrl.size) {
                             status.postValue(LoadingStatus.Success)
+                        }
+                    } else {
+                        if (response.code() == 401) {
+                            if (authRepository.loadNewAccessTokenSuccess()) {
+                                createNewProductImageDTO(productId, url, index)
+                            } else {
+                                status.postValue(LoadingStatus.Fail)
+                            }
+                        } else {
+                            status.postValue(LoadingStatus.Fail)
                         }
                     }
                 } catch (e: Exception) {
@@ -185,7 +217,15 @@ class AddProductViewModel @Inject constructor(
                         loadImageToFirebase(newProductId)
                     }
                 } else {
-                    status.postValue(LoadingStatus.Fail)
+                    if (responseProduct.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            requestCreateNewProduct()
+                        } else {
+                            status.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+                        status.postValue(LoadingStatus.Fail)
+                    }
                 }
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {
