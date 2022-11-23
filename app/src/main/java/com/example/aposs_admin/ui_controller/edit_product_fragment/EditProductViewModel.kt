@@ -211,10 +211,10 @@ class EditProductViewModel @Inject constructor(
                     }
                 } else {
                     listImageUrl.add(it.imageUri.toString())
-                    val path = "https://firebasestorage.googleapis.com/v0/b/kltn-admin-5643f.appspot.com/o/"
+                    val path =
+                        "https://firebasestorage.googleapis.com/v0/b/kltn-admin-5643f.appspot.com/o/"
                     val endOfName = it.imageUri.toString().indexOf("?alt=media")
                     val remainImageName = it.imageUri.toString().substring(path.length, endOfName)
-                    Log.i("TTTTTTTTTTTTTT", remainImageName)
                     numLoaded.incrementAndGet()
                     listOldImageNames.remove(remainImageName)
                     if (numLoaded.get() == listImages.value!!.size) {
@@ -227,28 +227,25 @@ class EditProductViewModel @Inject constructor(
 
 
     private val listImageUrl = mutableListOf<String>()
-    private val numLoadedDatabase = AtomicInteger(0)
     fun requestSaveImageUrl(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            var index = 0
-            for (url in listImageUrl) {
-                val newProductImageDTO = createNewProductImageDTO(productId, url, index)
-                try {
-                    val response = productRepository.addNewProductImage(
-                        newProductImageDTO,
-                        "${token?.tokenType.toString()} ${token?.accessToken.toString()}"
-                    )
-                    if (response.isSuccessful) {
-                        numLoadedDatabase.incrementAndGet()
-                        if (numLoadedDatabase.get() == listImageUrl.size) {
-                            deleteOldImageFromFirebase()
-                            status.postValue(LoadingStatus.Success)
-                        }
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            try {
+                val listProductImageDTO = mutableListOf<NewProductImageDTO>()
+                var index = 1
+                listImageUrl.stream().forEach {
+                    listProductImageDTO.add(createNewProductImageDTO(productId, it, index))
+                    index += 1
                 }
-                index += 1
+                val response = productRepository.updateProductImages(
+                    productId,
+                    listProductImageDTO,
+                    "${token?.tokenType.toString()} ${token?.accessToken.toString()}"
+                )
+                if (response.isSuccessful) {
+                    status.postValue(LoadingStatus.Success)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
@@ -270,6 +267,9 @@ class EditProductViewModel @Inject constructor(
                         loadImageToFirebase(selectedProduct!!.id)
                     }
                 } else {
+                    Log.i("TTTTTTTTTTTTTTTT", responseProduct.message())
+                    Log.i("TTTTTTTTTTTTTTTT", responseProduct.body().toString())
+                    Log.i("TTTTTTTTTTTTTTTT", responseProduct.code().toString())
                     status.postValue(LoadingStatus.Fail)
                 }
             } catch (e: Exception) {
@@ -281,6 +281,18 @@ class EditProductViewModel @Inject constructor(
                 status.postValue(LoadingStatus.Fail)
             }
         }
+    }
+
+    private fun toNewProductImageDTO(
+        imageUrl: String,
+        index: Int,
+        productId: Long
+    ): NewProductImageDTO {
+        return NewProductImageDTO(
+            imageUrl,
+            index,
+            productId
+        )
     }
 
     private fun createNewProductDTO(): NewProductDTO {

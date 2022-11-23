@@ -50,4 +50,8 @@ class ProductRepository @Inject constructor() {
     suspend fun updateProductImage(id:Long, newProductImageDTO: NewProductImageDTO, accessToken: String?): Response<Unit> {
         return productService.updateProductImage(id, newProductImageDTO, accessToken)
     }
+
+    suspend fun updateProductImages(id:Long, listNewProductImageDTO: List<NewProductImageDTO>, accessToken: String?): Response<Unit> {
+        return productService.updateProductImages(id, listNewProductImageDTO, accessToken)
+    }
 }
