@@ -13,6 +13,7 @@ import com.example.aposs_admin.model.dto.DetailCategoryDTO
 import com.example.aposs_admin.model.dto.ProductDTO
 import com.example.aposs_admin.model.dto.ProductDetailDTO
 import com.example.aposs_admin.model.dto.ProductImageDTO
+import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.ProductRepository
 import com.example.aposs_admin.util.LoadingStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailProductViewModel @Inject constructor(
     private val productRepository: ProductRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private var selectedProductId: Long = 0
 
@@ -83,7 +85,15 @@ class DetailProductViewModel @Inject constructor(
                         productDetailLoadingState.postValue(LoadingStatus.Success)
                     }
                 } else {
-                    productDetailLoadingState.postValue(LoadingStatus.Fail)
+                    if (productResponse.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            loadSelectedProductById(id)
+                        } else {
+                            productDetailLoadingState.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+                        productDetailLoadingState.postValue(LoadingStatus.Fail)
+                    }
                 }
             } catch(e: Exception) {
                 if (e is SocketTimeoutException) {
@@ -106,6 +116,16 @@ class DetailProductViewModel @Inject constructor(
                     _selectedProductImages.postValue(productImageResponse.body()!!.stream().map {
                         mapToImage(it)
                     }.collect(Collectors.toList()))
+                } else {
+                    if (productImageResponse.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            loadListImageByID(id)
+                        } else {
+//                            loadStatus.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+//                        loadStatus.postValue(LoadingStatus.Fail)
+                    }
                 }
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {

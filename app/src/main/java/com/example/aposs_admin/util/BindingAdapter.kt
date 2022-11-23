@@ -102,3 +102,8 @@ fun bindingAdditionalText(textView:TextView, additionalInformation: String?){
         textView.text = textViewText
     }
 }
+@BindingAdapter("list_account")
+fun bindListAccountRecyclerView(recyclerView: RecyclerView, account: List<String>?){
+    val adapter = recyclerView.adapter as AccountAdapter
+    adapter.submitList(account)
+}
