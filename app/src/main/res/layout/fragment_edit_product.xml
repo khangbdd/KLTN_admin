@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui_controller.add_product_fragment.AddProductFragment">
+    tools:context=".ui_controller.edit_product_fragment.EditProductFragment">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.example.aposs_admin.ui_controller.add_product_fragment.AddProductViewModel" />
+            type="com.example.aposs_admin.ui_controller.edit_product_fragment.EditProductViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,11 +104,12 @@
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/sv_rc_images"
                     android:layout_width="wrap_content"
-                    app:layout_constraintHorizontal_bias="0"
                     android:layout_height="60dp"
-                    app:layout_constraintWidth_max="280dp"
+                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_images">
+                    app:layout_constraintTop_toBottomOf="@id/text_images"
+                    app:layout_constraintWidth_max="280dp">
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_images"
                         list_images="@{viewModel.listImages}"
@@ -205,9 +206,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="vd: 20000"
-                        android:text="@={viewModel.price}"
                         android:inputType="numberDecimal"
                         android:padding="15dp"
+                        android:text="@={viewModel.price}"
                         android:textFontWeight="400" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -246,8 +247,8 @@
                         android:layout_height="match_parent"
                         android:hint="vd: 4, 10, 15"
                         android:inputType="numberDecimal"
-                        android:text="@={viewModel.quantity}"
                         android:padding="15dp"
+                        android:text="@={viewModel.quantity}"
                         android:textFontWeight="400" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -285,8 +286,9 @@
                         android:id="@+id/atc_category"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="15dp"
                         android:inputType="none"
+                        android:text="@={viewModel.category}"
+                        android:padding="15dp"
                         android:textFontWeight="400" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -325,8 +327,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="none"
-                        android:text="@={viewModel.kind}"
                         android:padding="15dp"
+                        android:text="@={viewModel.kind}"
                         android:textFontWeight="400" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -364,9 +366,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Mô tả sản phẩm"
-                        android:text="@={viewModel.description}"
                         android:inputType="textMultiLine"
                         android:padding="15dp"
+                        android:text="@={viewModel.description}"
                         android:textFontWeight="400" />
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -376,8 +378,8 @@
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:paddingHorizontal="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

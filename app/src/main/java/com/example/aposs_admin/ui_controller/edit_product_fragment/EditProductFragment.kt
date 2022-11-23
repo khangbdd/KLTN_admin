@@ -1,18 +1,10 @@
-package com.example.aposs_admin.ui_controller.add_product_fragment
+package com.example.aposs_admin.ui_controller.edit_product_fragment
 
 import android.Manifest
 import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.Context
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.CalendarContract.EventDays.query
-import android.provider.DocumentsContract
-import android.provider.MediaStore
-import android.provider.OpenableColumns
-import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,29 +13,27 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentResolverCompat.query
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.aposs_admin.R
 import com.example.aposs_admin.adapter.AddImageAdapter
 import com.example.aposs_admin.databinding.FragmentAddProductBinding
+import com.example.aposs_admin.databinding.FragmentEditProductBinding
 import com.example.aposs_admin.model.dto.TokenDTO
+import com.example.aposs_admin.ui_controller.add_product_fragment.AddProductViewModel
 import com.example.aposs_admin.ui_controller.dialog.LoadingDialog
 import com.example.aposs_admin.util.LoadingStatus
 import com.example.aposs_buyer.responsitory.database.AccountDatabase
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.net.URI
-
 
 @AndroidEntryPoint
-class AddProductFragment : Fragment() {
-
-    private var binding: FragmentAddProductBinding? = null
-    private val viewModel: AddProductViewModel by viewModels()
+class EditProductFragment : Fragment() {
+    private var binding: FragmentEditProductBinding? = null
+    private val viewModel: EditProductViewModel by viewModels()
     private var dialog: LoadingDialog? = null
+    private val args : EditProductFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +44,7 @@ class AddProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_product, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_product, container, false)
         binding?.lifecycleOwner = viewLifecycleOwner
         binding?.viewModel = viewModel
         val account = AccountDatabase.getInstance(this.requireContext()).accountDao.getAccount()!!
@@ -67,6 +57,7 @@ class AddProductFragment : Fragment() {
         binding?.back?.setOnClickListener {
             findNavController().popBackStack()
         }
+        viewModel.getInfo(args.selectedProduct, args.images)
         setUpAddImageButton()
         setUpListImage()
         setUpCategoriesList()

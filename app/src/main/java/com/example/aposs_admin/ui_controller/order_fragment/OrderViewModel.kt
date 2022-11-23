@@ -73,7 +73,7 @@ class OrderViewModel @Inject constructor(
     fun confirmCompletedPayment(orderId: Long, choseOrderStatus: OrderStatus) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = orderRepository.confirmCompletedPayment(orderId)
+                val response = orderRepository.confirmCompletedPayment(orderId, "${token?.tokenType} ${token?.accessToken}")
                 if (response.isSuccessful) {
                     loadOrder(choseOrderStatus)
                 }

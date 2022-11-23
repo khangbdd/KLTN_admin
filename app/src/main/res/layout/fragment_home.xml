@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui_controller.home_fragment.HomeFragment">
@@ -72,6 +74,43 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout2"/>
 
+    <LinearLayout
+        android:id="@+id/ln_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/chang_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableStart="@drawable/ic_password"
+            android:drawablePadding="9dp"
+            android:paddingHorizontal="13dp"
+            android:text="Đổi mật khẩu"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableStart="@drawable/ic_logout"
+            android:drawablePadding="9dp"
+            android:paddingHorizontal="13dp"
+            android:text="Đăng xuất"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+
     <ImageView
         android:id="@+id/btn_category"
         android:scaleType="fitCenter"
@@ -91,7 +130,7 @@
         android:layout_marginTop="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_category"/>
+        app:layout_constraintTop_toBottomOf="@id/btn_product"/>
     <ImageView
         android:id="@+id/btn_predict"
         android:layout_width="wrap_content"

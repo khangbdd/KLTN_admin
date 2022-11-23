@@ -92,11 +92,11 @@ class OrderDetailFragment : Fragment() {
             binding!!.ratingNow.visibility = View.GONE
             //            binding.cancel.setVisibility(View.GONE);
         } else if (status === OrderStatus.Pending) {
-            binding!!.ratingNow.text = "Confirmed"
+            binding!!.ratingNow.text = "Xác nhận đơn"
             binding!!.ratingNow.visibility = View.VISIBLE
             //            binding.cancel.setVisibility(View.VISIBLE);
         } else if (status === OrderStatus.Confirmed) {
-            binding!!.ratingNow.text = "Delivered"
+            binding!!.ratingNow.text = "Vận chuyển đơn"
             //            binding.cancel.setVisibility(View.VISIBLE);
             binding!!.ratingNow.visibility = View.VISIBLE
         } else if (status === OrderStatus.Delivering) {

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.aposs_admin.model.HomeProduct
 import com.example.aposs_admin.model.Image
 import com.example.aposs_admin.model.ProductDetail
+import com.example.aposs_admin.model.dto.DetailCategoryDTO
 import com.example.aposs_admin.model.dto.ProductDTO
 import com.example.aposs_admin.model.dto.ProductDetailDTO
 import com.example.aposs_admin.model.dto.ProductImageDTO
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailProductViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
 ) : ViewModel() {
     private var selectedProductId: Long = 0
 
@@ -32,8 +33,8 @@ class DetailProductViewModel @Inject constructor(
     private var _selectedProductImages = MutableLiveData<List<Image>>()
     val selectedProductImages: LiveData<List<Image>> get() = _selectedProductImages
 
-    private val _selectedProductQuantities = MutableLiveData<Int>()
-    val selectedProductQuantities: MutableLiveData<Int> get() = _selectedProductQuantities
+//    private val _selectedProductQuantities = MutableLiveData<Int>()
+//    val selectedProductQuantities: MutableLiveData<Int> get() = _selectedProductQuantities
 
     val productDetailLoadingState = MutableLiveData<LoadingStatus>()
 
@@ -66,6 +67,7 @@ class DetailProductViewModel @Inject constructor(
             productDetailDTO.description,
             productDetailDTO.quantity,
             productDetailDTO.kindName,
+            productDetailDTO.kindId
         )
     }
 
@@ -77,7 +79,7 @@ class DetailProductViewModel @Inject constructor(
                 if (productResponse.isSuccessful) {
                     _selectedProduct.postValue(mapToProductDetail(productResponse.body()!!, id))
                     withContext(Dispatchers.Main) {
-                        _selectedProductQuantities.postValue(_selectedProduct.value!!.availableQuantities)
+//                        _selectedProductQuantities.postValue(_selectedProduct.value!!.availableQuantities)
                         productDetailLoadingState.postValue(LoadingStatus.Success)
                     }
                 } else {
@@ -108,10 +110,8 @@ class DetailProductViewModel @Inject constructor(
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {
                     loadListImageByID(id)
-                }
-                else e.printStackTrace()
+                } else e.printStackTrace()
             }
         }
     }
-
 }

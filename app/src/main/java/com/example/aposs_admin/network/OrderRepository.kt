@@ -26,7 +26,7 @@ class OrderRepository @Inject constructor() {
         return orderService.setOrderStatus(id, orderStatus, accessToken)
     }
 
-    suspend fun confirmCompletedPayment(orderId: Long) : Response<String> {
-        return orderService.confirmCompletedPayment(orderId)
+    suspend fun confirmCompletedPayment(orderId: Long, accessToken: String?) : Response<String> {
+        return orderService.confirmCompletedPayment(orderId, accessToken)
     }
 }
