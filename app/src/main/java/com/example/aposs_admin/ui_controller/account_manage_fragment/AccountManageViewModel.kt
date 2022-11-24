@@ -86,4 +86,66 @@ class AccountManageViewModel @Inject constructor(
             }
         }
     }
+
+    private val changePasswordStatus: MutableLiveData<LoadingStatus> = MutableLiveData()
+    fun changePassword(account: String, newPassword: String, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val accessToken = authRepository.getCurrentAccessTokenFromRoom()
+                val response = accountRepository.changePassword(account, newPassword, accessToken.toString())
+                if (response.isSuccessful) {
+                    changePasswordStatus.postValue(LoadingStatus.Success)
+                    onSuccess()
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            changePassword(account, newPassword, onSuccess)
+                        } else {
+                            changePasswordStatus.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+                        changePasswordStatus.postValue(LoadingStatus.Fail)
+                    }
+                }
+            }catch (e: Exception){
+                if (e is SocketTimeoutException) {
+                    changePassword(account, newPassword, onSuccess)
+                } else {
+                    changePasswordStatus.postValue(LoadingStatus.Fail)
+                    Log.e("Exception", e.toString())
+                }
+            }
+        }
+    }
+
+    private val addingStatus: MutableLiveData<LoadingStatus> = MutableLiveData()
+    fun addNewAccount(account: String, password: String, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val accessToken = authRepository.getCurrentAccessTokenFromRoom()
+                val response = accountRepository.addNewAccount(account, password, accessToken.toString())
+                if (response.isSuccessful) {
+                    addingStatus.postValue(LoadingStatus.Success)
+                    onSuccess()
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            addNewAccount(account, password, onSuccess)
+                        } else {
+                            addingStatus.postValue(LoadingStatus.Fail)
+                        }
+                    } else {
+                        addingStatus.postValue(LoadingStatus.Fail)
+                    }
+                }
+            }catch (e: Exception){
+                if (e is SocketTimeoutException) {
+                    addNewAccount(account, password, onSuccess)
+                } else {
+                    addingStatus.postValue(LoadingStatus.Fail)
+                    Log.e("Exception", e.toString())
+                }
+            }
+        }
+    }
 }

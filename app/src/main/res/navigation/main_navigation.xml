@@ -97,5 +97,17 @@
         android:id="@+id/accountManageFragment"
         android:name="com.example.aposs_admin.ui_controller.account_manage_fragment.AccountManageFragment"
         android:label="fragment_account_manage"
-        tools:layout="@layout/fragment_account_manage" />
+        tools:layout="@layout/fragment_account_manage" >
+        <action
+            android:id="@+id/action_accountManageFragment_to_changePasswordDialog"
+            app:destination="@id/changePasswordDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/changePasswordDialog"
+        android:name="com.example.aposs_admin.ui_controller.dialog.ChangePasswordDialog"
+        android:label="ChangePasswordDialog" >
+        <argument
+            android:name="account"
+            app:argType="string" />
+    </dialog>
 </navigation>
