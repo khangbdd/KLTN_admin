@@ -60,8 +60,5 @@
             android:name="subcategoryID"
             app:argType="long"
             android:defaultValue="-1L" />
-        <action
-            android:id="@+id/action_createSubcategoryFragment_to_detailCategoryFragment"
-            app:destination="@id/detailCategoryFragment" />
     </fragment>
 </navigation>
