@@ -1,6 +1,7 @@
 package com.example.aposs_admin.util
 
 import android.net.Uri
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -106,4 +107,19 @@ fun bindingAdditionalText(textView:TextView, additionalInformation: String?){
 fun bindListAccountRecyclerView(recyclerView: RecyclerView, account: List<String>?){
     val adapter = recyclerView.adapter as AccountAdapter
     adapter.submitList(account)
+}
+
+@BindingAdapter("list_calendars")
+fun bindListCalendarRecyclerView(recyclerView: RecyclerView, calendarItems: List<CalendarItem>?){
+    val adapter = recyclerView.adapter as CalendarAdapter
+    adapter.submitList(calendarItems)
+}
+
+@BindingAdapter("isSpecial")
+fun bindIsSpecialDateImageView(imageView: ImageView, isSpecial: Boolean){
+    if (isSpecial) {
+        imageView.visibility = View.VISIBLE
+    } else {
+        imageView.visibility = View.GONE
+    }
 }
