@@ -6,10 +6,7 @@ import com.example.aposs_admin.model.DetailCategory
 import com.example.aposs_admin.model.HomeProduct
 import com.example.aposs_admin.model.Image
 import com.example.aposs_admin.model.Subcategory
-import com.example.aposs_admin.model.dto.DetailCategoryDTO
-import com.example.aposs_admin.model.dto.KindDTO
-import com.example.aposs_admin.model.dto.NewSubcategoryDTO
-import com.example.aposs_admin.model.dto.ProductDTO
+import com.example.aposs_admin.model.dto.*
 import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.CategoryRepository
 import com.example.aposs_admin.network.KindRepository
@@ -44,12 +41,83 @@ class AllCategoryViewModel @Inject constructor(
     val currentSubcategory = MutableLiveData<Subcategory>()
     val totalSubcategoryProduct = MutableLiveData<String>()
     val updateSubcategoryStatus = MutableLiveData<LoadingStatus>()
-
+    val uploadCategoryStatus = MutableLiveData<LoadingStatus>()
 
     init {
         loadAllCategories()
     }
-    
+
+    fun deleteCategory(id: Long){
+        uploadCategoryStatus.postValue(LoadingStatus.Loading)
+        viewModelScope.launch(Dispatchers.IO) {
+            runBlocking {
+                val accessToken = authRepository.getCurrentAccessTokenFromRoom()
+                if (!accessToken.isNullOrBlank()) {
+                    try {
+                        val response = categoriesRepository.deleteCategory(accessToken, id)
+                        if (response.isSuccessful) {
+                            uploadCategoryStatus.postValue(LoadingStatus.Success)
+                        } else {
+                            if (response.code() == 401) {
+                                if (authRepository.loadNewAccessTokenSuccess()) {
+                                    deleteCategory(id)
+                                } else {
+                                    uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                                }
+                            } else {
+                                uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                            }
+                        }
+                    }catch (e: Exception){
+                        if (e is SocketTimeoutException) {
+                            deleteCategory(id)
+                        } else {
+                            uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                            Log.e("Exception", e.toString())
+                        }
+                    }
+                }else{
+                    uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                }
+            }
+        }
+    }
+
+    fun addNewCategory(newCategory: NewCategory){
+        viewModelScope.launch(Dispatchers.IO) {
+            runBlocking {
+                val accessToken = authRepository.getCurrentAccessTokenFromRoom()
+                if (!accessToken.isNullOrBlank()) {
+                    try {
+                        val response = categoriesRepository.addNewCategory(accessToken, newCategory)
+                        if (response.isSuccessful) {
+                            uploadCategoryStatus.postValue(LoadingStatus.Success)
+                        } else {
+                            if (response.code() == 401) {
+                                if (authRepository.loadNewAccessTokenSuccess()) {
+                                    addNewCategory(newCategory)
+                                } else {
+                                    uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                                }
+                            } else {
+                                uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                            }
+                        }
+                    }catch (e: Exception){
+                        if (e is SocketTimeoutException) {
+                            addNewCategory(newCategory)
+                        } else {
+                            uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                            Log.e("Exception", e.toString())
+                        }
+                    }
+                }else{
+                    uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                }
+            }
+        }
+    }
+
     fun setCurrentSubcategory(position: Int){
         currentSubcategories.let {
             if(it != null){
@@ -215,17 +283,21 @@ class AllCategoryViewModel @Inject constructor(
     fun setCurrentCategory(position: Int){
         allCategories.value.let {
             if (it != null){
-                if (position < it.count())
-                currentCategory.value = it[position]
-                val imageCount = it[position].images.size.toString() +"/5"
-                totalCategoryImage.postValue(imageCount)
-                loadingALlSubCategories()
+                if (position < it.count()){
+                    currentCategory.value = DetailCategory(
+                        id = it[position].id,
+                        name= it[position].name,
+                        images = it[position].images
+                    )
+                    val imageCount = it[position].images.size.toString() +"/5"
+                    totalCategoryImage.postValue(imageCount)
+                    loadingALlSubCategories()
+                }
             }
         }
-
     }
 
-    private fun loadAllCategories() {
+    fun loadAllCategories() {
         status.value = LoadingStatus.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
