@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.aposs_admin.model.dto.AccountDTO
 import com.example.aposs_admin.model.dto.TokenDTO
 import com.example.aposs_admin.network.AccountRepository
 import com.example.aposs_admin.network.AuthRepository
@@ -11,6 +12,7 @@ import com.example.aposs_admin.util.LoadingStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
@@ -51,6 +53,7 @@ class AccountManageViewModel @Inject constructor(
                     loadAccount()
                 } else {
                     loadStatus.postValue(LoadingStatus.Fail)
+                    e.printStackTrace()
                     Log.e("Exception", e.toString())
                 }
             }
@@ -64,6 +67,9 @@ class AccountManageViewModel @Inject constructor(
                 val accessToken = authRepository.getCurrentAccessTokenFromRoom()
                 val response = accountRepository.deleteAccount(account, accessToken.toString())
                 if (response.isSuccessful) {
+                    val listTempt =  listAccount.value
+                    listTempt?.remove(account)
+                    listAccount.postValue(listTempt)
                     deleteStatus.postValue(LoadingStatus.Success)
                 } else {
                     if (response.code() == 401) {
@@ -81,6 +87,7 @@ class AccountManageViewModel @Inject constructor(
                     deleteAccount(account)
                 } else {
                     deleteStatus.postValue(LoadingStatus.Fail)
+                    e.printStackTrace()
                     Log.e("Exception", e.toString())
                 }
             }
@@ -92,10 +99,14 @@ class AccountManageViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val accessToken = authRepository.getCurrentAccessTokenFromRoom()
+                Log.i("TTTTTTTTTTTTT", account)
+                Log.i("TTTTTTTTTTTTT", newPassword)
                 val response = accountRepository.changePassword(account, newPassword, accessToken.toString())
                 if (response.isSuccessful) {
                     changePasswordStatus.postValue(LoadingStatus.Success)
-                    onSuccess()
+                    withContext(Dispatchers.Main) {
+                        onSuccess()
+                    }
                 } else {
                     if (response.code() == 401) {
                         if (authRepository.loadNewAccessTokenSuccess()) {
@@ -112,6 +123,7 @@ class AccountManageViewModel @Inject constructor(
                     changePassword(account, newPassword, onSuccess)
                 } else {
                     changePasswordStatus.postValue(LoadingStatus.Fail)
+                    e.printStackTrace()
                     Log.e("Exception", e.toString())
                 }
             }
@@ -123,10 +135,14 @@ class AccountManageViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val accessToken = authRepository.getCurrentAccessTokenFromRoom()
-                val response = accountRepository.addNewAccount(account, password, accessToken.toString())
+                val response = accountRepository.addNewAccount(AccountDTO(account, password), accessToken.toString())
                 if (response.isSuccessful) {
                     addingStatus.postValue(LoadingStatus.Success)
-                    onSuccess()
+                    loadAccount()
+                    withContext(Dispatchers.IO)
+                    {
+                        onSuccess()
+                    }
                 } else {
                     if (response.code() == 401) {
                         if (authRepository.loadNewAccessTokenSuccess()) {
@@ -143,6 +159,7 @@ class AccountManageViewModel @Inject constructor(
                     addNewAccount(account, password, onSuccess)
                 } else {
                     addingStatus.postValue(LoadingStatus.Fail)
+                    e.printStackTrace()
                     Log.e("Exception", e.toString())
                 }
             }

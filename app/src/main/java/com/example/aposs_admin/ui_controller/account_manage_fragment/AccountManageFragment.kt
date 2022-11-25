@@ -1,11 +1,13 @@
 package com.example.aposs_admin.ui_controller.account_manage_fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
@@ -16,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AccountManageFragment : Fragment() {
 
-    private val viewModel: AccountManageViewModel by viewModels()
+    private val viewModel: AccountManageViewModel by activityViewModels()
     private var binding: FragmentAccountManageBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,19 +41,21 @@ class AccountManageFragment : Fragment() {
     private fun setUpListAccount() {
         binding?.rcAccount?.adapter = AccountAdapter(object: AccountAdapter.OnChangePasswordClick {
             override fun onChangePasswordClick(account: String) {
-                // call viewModel
+                findNavController().navigate(AccountManageFragmentDirections.actionAccountManageFragmentToChangePasswordDialog(account))
             }
         }, object : AccountAdapter.OnDeleteAccountClick{
             override fun onDeleteAccountCLick(account: String) {
                 viewModel.deleteAccount(account)
             }
-
         })
     }
 
     private fun setUpButton() {
         binding?.back?.setOnClickListener {
             findNavController().popBackStack()
+        }
+        binding?.btnAdd?.setOnClickListener {
+            findNavController().navigate(AccountManageFragmentDirections.actionAccountManageFragmentToNewAccountDialog())
         }
     }
 
