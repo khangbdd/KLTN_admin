@@ -101,6 +101,9 @@
         <action
             android:id="@+id/action_accountManageFragment_to_changePasswordDialog"
             app:destination="@id/changePasswordDialog" />
+        <action
+            android:id="@+id/action_accountManageFragment_to_newAccountDialog"
+            app:destination="@id/newAccountDialog" />
     </fragment>
     <dialog
         android:id="@+id/changePasswordDialog"
@@ -110,4 +113,8 @@
             android:name="account"
             app:argType="string" />
     </dialog>
+    <dialog
+        android:id="@+id/newAccountDialog"
+        android:name="com.example.aposs_admin.ui_controller.dialog.NewAccountDialog"
+        android:label="NewAccountDialog" />
 </navigation>
