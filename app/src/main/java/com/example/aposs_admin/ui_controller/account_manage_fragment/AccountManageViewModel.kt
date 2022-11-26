@@ -61,20 +61,21 @@ class AccountManageViewModel @Inject constructor(
     }
 
     private val deleteStatus: MutableLiveData<LoadingStatus> = MutableLiveData()
-    fun deleteAccount(account: String) {
+    fun deleteAccount(account: String, success: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val accessToken = authRepository.getCurrentAccessTokenFromRoom()
                 val response = accountRepository.deleteAccount(account, accessToken.toString())
                 if (response.isSuccessful) {
-                    val listTempt =  listAccount.value
-                    listTempt?.remove(account)
-                    listAccount.postValue(listTempt)
+                    loadAccount()
                     deleteStatus.postValue(LoadingStatus.Success)
+                    withContext(Dispatchers.Main) {
+                        success()
+                    }
                 } else {
                     if (response.code() == 401) {
                         if (authRepository.loadNewAccessTokenSuccess()) {
-                            deleteAccount(account)
+                            deleteAccount(account, success)
                         } else {
                             deleteStatus.postValue(LoadingStatus.Fail)
                         }
@@ -84,7 +85,7 @@ class AccountManageViewModel @Inject constructor(
                 }
             }catch (e: Exception){
                 if (e is SocketTimeoutException) {
-                    deleteAccount(account)
+                    deleteAccount(account, success)
                 } else {
                     deleteStatus.postValue(LoadingStatus.Fail)
                     e.printStackTrace()
@@ -139,7 +140,7 @@ class AccountManageViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     addingStatus.postValue(LoadingStatus.Success)
                     loadAccount()
-                    withContext(Dispatchers.IO)
+                    withContext(Dispatchers.Main)
                     {
                         onSuccess()
                     }

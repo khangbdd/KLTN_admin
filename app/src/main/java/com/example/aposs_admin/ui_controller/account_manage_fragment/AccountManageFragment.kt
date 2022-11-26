@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
 import com.example.aposs_admin.adapter.AccountAdapter
 import com.example.aposs_admin.databinding.FragmentAccountManageBinding
+import com.example.aposs_admin.ui_controller.dialog.YesNoDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +46,9 @@ class AccountManageFragment : Fragment() {
             }
         }, object : AccountAdapter.OnDeleteAccountClick{
             override fun onDeleteAccountCLick(account: String) {
-                viewModel.deleteAccount(account)
+                fragmentManager?.beginTransaction()
+                    ?.add(YesNoDialog("Xác nhận xóa ${account}?", account, requireActivity()), null)
+                    ?.commit()
             }
         })
     }
