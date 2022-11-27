@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_accountManageFragment"
             app:destination="@id/accountManageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_calendarChangeFragment"
+            app:destination="@id/calendarChangeFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -117,4 +120,20 @@
         android:id="@+id/newAccountDialog"
         android:name="com.example.aposs_admin.ui_controller.dialog.NewAccountDialog"
         android:label="NewAccountDialog" />
+    <fragment
+        android:id="@+id/calendarChangeFragment"
+        android:name="com.example.aposs_admin.ui_controller.calendar_change_fragment.CalendarChangeFragment"
+        android:label="CalendarChangeFragment" >
+        <action
+            android:id="@+id/action_calendarChangeFragment_to_updateCalendarDialog"
+            app:destination="@id/updateCalendarDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/updateCalendarDialog"
+        android:name="com.example.aposs_admin.ui_controller.dialog.UpdateCalendarDialog"
+        android:label="UpdateCalendarDialog" >
+        <argument
+            android:name="calendarItem"
+            app:argType="com.example.aposs_admin.model.CalendarItem" />
+    </dialog>
 </navigation>

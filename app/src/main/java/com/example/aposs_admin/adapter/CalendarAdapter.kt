@@ -1,6 +1,7 @@
 package com.example.aposs_admin.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +11,7 @@ import com.example.aposs_admin.R
 import com.example.aposs_admin.databinding.ItemCalendarBinding
 import com.example.aposs_admin.model.CalendarItem
 
-class CalendarAdapter: ListAdapter<CalendarItem, CalendarAdapter.CalendarViewHolder>(DiffCallBack.instance!!) {
+class CalendarAdapter(private val onClick: (calendarItem: CalendarItem) -> Unit): ListAdapter<CalendarItem, CalendarAdapter.CalendarViewHolder>(DiffCallBack.instance!!) {
 
     class DiffCallBack: DiffUtil.ItemCallback<CalendarItem>() {
         override fun areItemsTheSame(oldItem: CalendarItem, newItem: CalendarItem): Boolean {
@@ -36,6 +37,24 @@ class CalendarAdapter: ListAdapter<CalendarItem, CalendarAdapter.CalendarViewHol
     class CalendarViewHolder(private val binding: ItemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(calendarItem: CalendarItem) {
             binding.calendarItem = calendarItem
+            if (calendarItem.isCurrentDay) {
+                binding.root.setBackgroundColor(R.color.teal_200)
+            }
+            if (calendarItem.isLocalHoliday) {
+                binding.isLocalHoliday.visibility = View.VISIBLE
+            } else {
+                binding.isLocalHoliday.visibility = View.GONE
+            }
+            if (calendarItem.isOff) {
+                binding.isOff.visibility = View.VISIBLE
+            } else {
+                binding.isOff.visibility = View.GONE
+            }
+            if (calendarItem.isNationalHoliday) {
+                binding.isNationalHoliday.visibility = View.VISIBLE
+            } else {
+                binding.isNationalHoliday.visibility = View.GONE
+            }
         }
 
     }
@@ -49,5 +68,8 @@ class CalendarAdapter: ListAdapter<CalendarItem, CalendarAdapter.CalendarViewHol
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         val calendarItem = getItem(position)
         holder.bind(calendarItem)
+        holder.itemView.setOnClickListener{
+            onClick(calendarItem)
+        }
     }
 }
