@@ -1,6 +1,7 @@
 package com.example.aposs_admin.network
 
 import com.example.aposs_admin.model.CalendarItem
+import com.example.aposs_admin.model.dto.CalendarItemDTO
 import com.example.aposs_admin.model.dto.DefaultCalendarDTO
 import com.example.aposs_admin.network.service.CalendarService
 import retrofit2.Response
@@ -15,15 +16,15 @@ class CalendarsRepository @Inject constructor() {
         RetrofitInstance.retrofit.create(CalendarService::class.java)
     }
 
-    suspend fun getDefaultCalendars(): Response<DefaultCalendarDTO> {
-        return calendarService.getDefaultCalendars()
+    suspend fun getDefaultCalendars(accessToken: String): Response<DefaultCalendarDTO> {
+        return calendarService.getDefaultCalendars(accessToken)
     }
 
-    suspend fun getCalendarsList(month: Int, year: Int): Response<List<CalendarItem>> {
-        return calendarService.getCalendarsList(month, year)
+    suspend fun getCalendarsList(month: Int, year: Int, accessToken: String): Response<List<CalendarItemDTO>> {
+        return calendarService.getCalendarsList(month, year,accessToken)
     }
 
-    suspend fun updateDateStatus(calendarItem: CalendarItem): Response<Unit> {
-        return calendarService.updateDateStatus(calendarItem)
+    suspend fun updateDateStatus(calendarItem: CalendarItemDTO, accessToken: String): Response<Unit> {
+        return calendarService.updateDateStatus(calendarItem, accessToken)
     }
 }
