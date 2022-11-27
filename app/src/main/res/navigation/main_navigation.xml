@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_productsFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailProduct"
@@ -136,4 +139,12 @@
             android:name="calendarItem"
             app:argType="com.example.aposs_admin.model.CalendarItem" />
     </dialog>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.aposs_admin.ui_controller.search_fragment.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_fragmentDetailProduct"
+            app:destination="@id/fragmentDetailProduct" />
+    </fragment>
 </navigation>

@@ -101,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_search"
                 android:padding="0dp"
+                android:editable="false"
                 android:hint="@string/search"
                 android:text="@={viewModel.searchText}"
                 android:textColor="@color/disable_pray" />
