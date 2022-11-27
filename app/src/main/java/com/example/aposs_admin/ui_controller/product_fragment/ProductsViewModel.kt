@@ -93,9 +93,10 @@ class ProductsViewModel @Inject constructor(
                 } catch (e: Exception) {
                     if (e is SocketTimeoutException) {
                         loadProducts()
+                    } else {
+                        Log.d("exception", e.toString())
+                        _status.postValue(LoadingStatus.Fail)
                     }
-                    Log.d("exception", e.toString())
-                    _status.postValue(LoadingStatus.Fail)
                 }
             }
         }

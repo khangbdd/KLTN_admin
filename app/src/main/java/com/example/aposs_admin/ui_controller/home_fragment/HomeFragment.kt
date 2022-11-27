@@ -66,6 +66,9 @@ class HomeFragment : Fragment() {
         binding?.btnAccount?.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAccountManageFragment())
         }
+        binding?.btnCalendar?.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCalendarChangeFragment())
+        }
     }
 
 
