@@ -22,7 +22,6 @@ data class CalendarItemDTO(
         if (date != null) {
             calendar.time = date
         }
-        Log.i("TTTTTTTTTTTTT", calendar.get(Calendar.MONTH).toString())
         return CalendarItem(
             id = id,
             date = calendar.get(Calendar.DATE),

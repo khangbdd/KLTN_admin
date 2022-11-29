@@ -27,7 +27,7 @@ data class CalendarItem(
         }
         return CalendarItemDTO(
             id,
-            "$date-$month-$year",
+            "$dateFormat-$monthFormat-$year",
             isOff,
             isNationalHoliday,
             isLocalHoliday,
