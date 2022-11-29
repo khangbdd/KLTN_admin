@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CalendarItem(
+    val id: Long,
     val date: Int,
     val month: Int,
     val year: Int,
@@ -16,7 +17,16 @@ data class CalendarItem(
     var description: String,
 ) : Parcelable {
     fun toCalendarItemDTO(): CalendarItemDTO {
+        var dateFormat = date.toString()
+        if (date < 10) {
+            dateFormat = "0$dateFormat"
+        }
+        var monthFormat = month.toString()
+        if (month < 10) {
+            monthFormat = "0$monthFormat"
+        }
         return CalendarItemDTO(
+            id,
             "$date-$month-$year",
             isOff,
             isNationalHoliday,

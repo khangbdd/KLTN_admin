@@ -1,9 +1,10 @@
 package com.example.aposs_admin.model.dto
 
 import com.example.aposs_admin.model.CalendarItem
+import com.squareup.moshi.Json
 
 data class DefaultCalendarDTO(
-    val listCalendar: List<CalendarItemDTO>,
+    @Json(name = "calendarDateItemDTOList") val listCalendar: List<CalendarItemDTO>,
     val minYear:Int,
     val minMonth: Int,
     val maxYear:Int,

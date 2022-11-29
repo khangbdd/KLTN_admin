@@ -109,7 +109,6 @@
             android:layout_height="match_parent"
             android:padding="15dp"
             android:inputType="none"
-            android:text="@={viewModel.selectedYear}"
             android:textFontWeight="400" />
     </com.google.android.material.textfield.TextInputLayout>
     <TextView
@@ -150,7 +149,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15dp"
-        android:text="@={viewModel.selectedMonth}"
         android:inputType="none"
         android:textFontWeight="400" />
     </com.google.android.material.textfield.TextInputLayout>
