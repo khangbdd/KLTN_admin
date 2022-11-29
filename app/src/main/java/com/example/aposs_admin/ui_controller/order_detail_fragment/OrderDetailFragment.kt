@@ -45,19 +45,34 @@ class OrderDetailFragment : Fragment() {
         viewModel.detailOrder.value?.let {
             setShowButtonByStatus(it.status)
         }
+        binding?.statusString?.text = viewModel.detailOrder.value!!.statusString
         binding?.back?.setOnClickListener {
            findNavController().popBackStack()
         }
 
+        binding?.cancel?.setOnClickListener {
+            viewModel.detailOrder.value?.let {
+                viewModel.setOrderStatus(it.id, OrderStatus.Cancel) {
+                    binding?.statusString?.text = viewModel.detailOrder.value!!.statusString
+                }
+                setShowButtonByStatus(OrderStatus.Cancel)
+            }
+        }
         binding?.ratingNow?.setOnClickListener {
             viewModel.detailOrder.value?.let {
                 if (it.status === OrderStatus.Pending) {
                     viewModel.setOrderStatus(it.id, OrderStatus.Confirmed)
+                    {
+                        binding?.statusString?.text = viewModel.detailOrder.value!!.statusString
+                    }
                     setShowButtonByStatus(OrderStatus.Confirmed)
 //                    orderViewModel.loadOrder(OrderStatus.Pending)
                 }
                 if (it.status === OrderStatus.Confirmed) {
                     viewModel.setOrderStatus(it.id, OrderStatus.Delivering)
+                    {
+                        binding?.statusString?.text = viewModel.detailOrder.value!!.statusString
+                    }
                     setShowButtonByStatus(OrderStatus.Delivering)
 //                    orderViewModel.loadOrder(OrderStatus.Confirmed)
                 }
@@ -90,20 +105,25 @@ class OrderDetailFragment : Fragment() {
     private fun setShowButtonByStatus(status: OrderStatus) {
         if (status === OrderStatus.Success) {
             binding!!.ratingNow.visibility = View.GONE
+            binding!!.cancel.visibility = View.GONE
             //            binding.cancel.setVisibility(View.GONE);
         } else if (status === OrderStatus.Pending) {
             binding!!.ratingNow.text = "Xác nhận đơn"
             binding!!.ratingNow.visibility = View.VISIBLE
+            binding!!.cancel.visibility = View.VISIBLE
             //            binding.cancel.setVisibility(View.VISIBLE);
         } else if (status === OrderStatus.Confirmed) {
             binding!!.ratingNow.text = "Vận chuyển đơn"
             //            binding.cancel.setVisibility(View.VISIBLE);
             binding!!.ratingNow.visibility = View.VISIBLE
+            binding!!.cancel.visibility = View.VISIBLE
         } else if (status === OrderStatus.Delivering) {
             binding!!.ratingNow.visibility = View.GONE
+            binding!!.cancel.visibility = View.GONE
             //            binding.cancel.setVisibility(View.GONE);
         } else if (status === OrderStatus.Cancel) {
             binding!!.ratingNow.visibility = View.GONE
+            binding!!.cancel.visibility = View.GONE
             //            binding.cancel.setVisibility(View.GONE);
         }
     }
