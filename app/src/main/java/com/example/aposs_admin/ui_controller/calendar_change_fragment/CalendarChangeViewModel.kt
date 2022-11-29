@@ -28,13 +28,13 @@ class CalendarChangeViewModel @Inject constructor(
 
     val listCalenderItem: MutableLiveData<MutableList<CalendarItem>> = MutableLiveData(mutableListOf())
 
-    var selectedMonth: MutableLiveData<String> = MutableLiveData("")
+    val selectedMonth: MutableLiveData<String> = MutableLiveData("")
 
-    var selectedYear: MutableLiveData<String> = MutableLiveData("")
+    val selectedYear: MutableLiveData<String> = MutableLiveData("")
 
-    var availableMonth: ArrayList<String> = arrayListOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
+    var availableMonth: MutableLiveData<ArrayList<String>> = MutableLiveData(arrayListOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"))
 
-    var availableYear: ArrayList<String> = arrayListOf()
+    var availableYear: MutableLiveData<ArrayList<String>> = MutableLiveData(arrayListOf())
 
     var currentDay: CalendarItem? = null
 
@@ -55,7 +55,7 @@ class CalendarChangeViewModel @Inject constructor(
             }
         }
         if (selectedYear.value.toString() != maxYear.toString() &&  selectedYear.value.toString() != minYear.toString()) {
-            availableMonthTempt.addAll(mutableListOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"))
+            availableMonthTempt.addAll(arrayListOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"))
         }
         if (selectedYear.value.toString() == minYear.toString()) {
             var value = minMonth
@@ -64,7 +64,8 @@ class CalendarChangeViewModel @Inject constructor(
                 value += 1
             }
         }
-        availableMonth = availableMonthTempt
+        availableMonth.postValue(availableMonthTempt)
+
     }
 
     private fun loadAvailableYear(minYear: Int, maxYear: Int) {
@@ -74,12 +75,11 @@ class CalendarChangeViewModel @Inject constructor(
             availableYearTempt.add(value.toString())
             value += 1
         }
-        availableYear = availableYearTempt
+        availableYear.postValue(availableYearTempt)
     }
 
-    val loadDefaultStatus: MutableLiveData<LoadingStatus> = MutableLiveData()
+    private val loadDefaultStatus: MutableLiveData<LoadingStatus> = MutableLiveData()
     fun loadDefaultCalendar() {
-        loadDefaultStatus.postValue(LoadingStatus.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val accessToken = authRepository.getCurrentAccessTokenFromRoom()
@@ -90,9 +90,16 @@ class CalendarChangeViewModel @Inject constructor(
                         defaultCalendar.postValue(result)
                         listCalenderItem.postValue(result.getListCalendarItem())
                         selectedYear.postValue(result.currentYear.toString())
-                        selectedMonth.postValue(result.maxMonth.toString())
-                        loadAvailableYear(result.minYear, result.maxYear)
-                        loadAvailableMonth(result.minMonth, result.minYear, result.maxMonth, result.maxYear)
+                        selectedMonth.postValue(result.currentMonth.toString())
+                        withContext(Dispatchers.Main) {
+                            loadAvailableYear(result.minYear, result.maxYear)
+                            loadAvailableMonth(
+                                result.minMonth,
+                                result.minYear,
+                                result.maxMonth,
+                                result.maxYear
+                            )
+                        }
                         if (currentDay == null) {
                             currentDay = result.getListCalendarItem().stream()
                                 .filter { it -> it.isCurrentDay }.findAny().get()
@@ -124,7 +131,6 @@ class CalendarChangeViewModel @Inject constructor(
 
     val updateStatus: MutableLiveData<LoadingStatus> = MutableLiveData()
     fun updateCalendar(calendarItem: CalendarItem, onSuccess: () -> Unit) {
-        updateStatus.postValue(LoadingStatus.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val accessToken = authRepository.getCurrentAccessTokenFromRoom()
@@ -160,7 +166,6 @@ class CalendarChangeViewModel @Inject constructor(
 
     val loadCurrentStatus: MutableLiveData<LoadingStatus> = MutableLiveData()
     fun loadCurrentDateWithSelectedMonthAndYear() {
-        loadCurrentStatus.postValue(LoadingStatus.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val accessToken = authRepository.getCurrentAccessTokenFromRoom()

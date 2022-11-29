@@ -15,7 +15,7 @@ class CalendarAdapter(private val onClick: (calendarItem: CalendarItem) -> Unit)
 
     class DiffCallBack: DiffUtil.ItemCallback<CalendarItem>() {
         override fun areItemsTheSame(oldItem: CalendarItem, newItem: CalendarItem): Boolean {
-            return oldItem.date == newItem.date && oldItem.month == newItem.month && oldItem.year == newItem.year
+            return oldItem.date == newItem.date && oldItem.month == newItem.month && oldItem.year == newItem.year && oldItem.isOff == newItem.isOff && oldItem.isNationalHoliday == newItem.isNationalHoliday && oldItem.isLocalHoliday == newItem.isLocalHoliday
         }
 
         override fun areContentsTheSame(oldItem: CalendarItem, newItem: CalendarItem): Boolean {

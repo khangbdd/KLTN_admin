@@ -17,14 +17,14 @@ class CalendarsRepository @Inject constructor() {
     }
 
     suspend fun getDefaultCalendars(accessToken: String): Response<DefaultCalendarDTO> {
-        return calendarService.getDefaultCalendars(accessToken)
+        return calendarService.getDefaultCalendars()
     }
 
     suspend fun getCalendarsList(month: Int, year: Int, accessToken: String): Response<List<CalendarItemDTO>> {
-        return calendarService.getCalendarsList(month, year,accessToken)
+        return calendarService.getCalendarsList(month, year)
     }
 
     suspend fun updateDateStatus(calendarItem: CalendarItemDTO, accessToken: String): Response<Unit> {
-        return calendarService.updateDateStatus(calendarItem, accessToken)
+        return calendarService.updateDateStatus(calendarItem.day,calendarItem, accessToken)
     }
 }
