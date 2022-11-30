@@ -34,7 +34,7 @@ class CalendarAdapter(private val onClick: (calendarItem: CalendarItem) -> Unit)
         }
     }
 
-    class CalendarViewHolder(private val binding: ItemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
+    class CalendarViewHolder(val binding: ItemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(calendarItem: CalendarItem) {
             binding.calendarItem = calendarItem
             if (calendarItem.isCurrentDay) {
@@ -70,6 +70,26 @@ class CalendarAdapter(private val onClick: (calendarItem: CalendarItem) -> Unit)
         holder.bind(calendarItem)
         holder.itemView.setOnClickListener{
             onClick(calendarItem)
+        }
+        with(holder) {
+            if (calendarItem.isCurrentDay) {
+                binding.root.setBackgroundColor(R.color.teal_200)
+            }
+            if (calendarItem.isLocalHoliday) {
+                binding.isLocalHoliday.visibility = View.VISIBLE
+            } else {
+                binding.isLocalHoliday.visibility = View.GONE
+            }
+            if (calendarItem.isOff) {
+                binding.isOff.visibility = View.VISIBLE
+            } else {
+                binding.isOff.visibility = View.GONE
+            }
+            if (calendarItem.isNationalHoliday) {
+                binding.isNationalHoliday.visibility = View.VISIBLE
+            } else {
+                binding.isNationalHoliday.visibility = View.GONE
+            }
         }
     }
 }
