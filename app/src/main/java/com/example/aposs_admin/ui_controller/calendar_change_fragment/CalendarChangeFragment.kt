@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
 import com.example.aposs_admin.adapter.CalendarAdapter
 import com.example.aposs_admin.databinding.FragmentCalendarChangeBinding
+import com.example.aposs_admin.util.LoadingStatus
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.stream.Collectors
 
@@ -44,15 +45,15 @@ class CalendarChangeFragment : Fragment() {
         }
         return binding?.root!!
     }
-
-    fun setUpListCalendar() {
-        binding?.rcCalendars?.adapter = CalendarAdapter { calendarItem ->
-            findNavController().navigate(
-                CalendarChangeFragmentDirections.actionCalendarChangeFragmentToUpdateCalendarDialog(
-                    calendarItem
-                )
+    private val adapter = CalendarAdapter { calendarItem ->
+        findNavController().navigate(
+            CalendarChangeFragmentDirections.actionCalendarChangeFragmentToUpdateCalendarDialog(
+                calendarItem
             )
-        }
+        )
+    }
+    fun setUpListCalendar() {
+        binding?.rcCalendars?.adapter = adapter
     }
 
 
@@ -97,6 +98,11 @@ class CalendarChangeFragment : Fragment() {
             adapterYear.clear()
             adapterYear.addAll(it)
             adapterYear.notifyDataSetChanged()
+        }
+        viewModel.loadCurrentStatus.observe(viewLifecycleOwner) {
+            if (it == LoadingStatus.Success) {
+                adapter.notifyDataSetChanged()
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.aposs_admin.model
 
 import android.os.Parcelable
+import android.util.Log
 import com.example.aposs_admin.model.dto.CalendarItemDTO
 import kotlinx.android.parcel.Parcelize
 
@@ -27,7 +28,7 @@ data class CalendarItem(
         }
         return CalendarItemDTO(
             id,
-            "$date-$month-$year",
+            "$dateFormat-$monthFormat-$year",
             isOff,
             isNationalHoliday,
             isLocalHoliday,

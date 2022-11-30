@@ -45,7 +45,7 @@ class OrderViewModel @Inject constructor(
             try {
                 val response = orderRepository.getAllOrderWithStatus(
                     orderStatus,
-                    token?.tokenType + " " + token?.accessToken
+                    authRepository.getCurrentAccessTokenFromRoom()
                 )
                 if (response.isSuccessful) {
                     val orderDTOs = response.body()
@@ -86,7 +86,7 @@ class OrderViewModel @Inject constructor(
     fun confirmCompletedPayment(orderId: Long, choseOrderStatus: OrderStatus) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = orderRepository.confirmCompletedPayment(orderId, "${token?.tokenType} ${token?.accessToken}")
+                val response = orderRepository.confirmCompletedPayment(orderId, authRepository.getCurrentAccessTokenFromRoom())
                 if (response.isSuccessful) {
                     loadOrder(choseOrderStatus)
                 } else {
@@ -117,7 +117,7 @@ class OrderViewModel @Inject constructor(
                 val response = orderRepository.setOrderStatus(
                     id,
                     orderStatus,
-                    token?.tokenType + " " + token?.accessToken
+                    authRepository.getCurrentAccessTokenFromRoom()
                 )
                 if (response.isSuccessful) {
                     if (orderStatus === OrderStatus.Confirmed) {
