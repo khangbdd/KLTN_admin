@@ -42,6 +42,11 @@ class LoginFragment : Fragment() {
         binding = null
     }
 
+    override fun onStart() {
+        super.onStart()
+        clearAccount()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,6 +65,7 @@ class LoginFragment : Fragment() {
 
     private fun clearAccount() {
         val currentAccount = AccountDatabase.getInstance(this.requireContext()).accountDao.getAccount()
+        Log.i("TTTTTTTTTTTTTTTT", currentAccount?.userName.toString())
         if (currentAccount != null) {
             AccountDatabase.getInstance(this.requireContext()).accountDao.deleteAccount(currentAccount)
         }

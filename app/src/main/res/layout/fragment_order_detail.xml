@@ -216,7 +216,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                         android:layout_marginHorizontal="25dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="25dp"
-                        android:text="@{viewModel.detailOrder.statusString}"
                         android:layout_toEndOf="@+id/status"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"

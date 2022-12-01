@@ -19,6 +19,12 @@
         <action
             android:id="@+id/action_homeFragment_to_loginActivity"
             app:destination="@id/loginActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_accountManageFragment"
+            app:destination="@id/accountManageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_calendarChangeFragment"
+            app:destination="@id/calendarChangeFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -46,6 +52,9 @@
         <action
             android:id="@+id/action_productsFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailProduct"
@@ -89,5 +98,53 @@
         <argument
             android:name="selectedProduct"
             app:argType="com.example.aposs_admin.model.ProductDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountManageFragment"
+        android:name="com.example.aposs_admin.ui_controller.account_manage_fragment.AccountManageFragment"
+        android:label="fragment_account_manage"
+        tools:layout="@layout/fragment_account_manage" >
+        <action
+            android:id="@+id/action_accountManageFragment_to_changePasswordDialog"
+            app:destination="@id/changePasswordDialog" />
+        <action
+            android:id="@+id/action_accountManageFragment_to_newAccountDialog"
+            app:destination="@id/newAccountDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/changePasswordDialog"
+        android:name="com.example.aposs_admin.ui_controller.dialog.ChangePasswordDialog"
+        android:label="ChangePasswordDialog" >
+        <argument
+            android:name="account"
+            app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/newAccountDialog"
+        android:name="com.example.aposs_admin.ui_controller.dialog.NewAccountDialog"
+        android:label="NewAccountDialog" />
+    <fragment
+        android:id="@+id/calendarChangeFragment"
+        android:name="com.example.aposs_admin.ui_controller.calendar_change_fragment.CalendarChangeFragment"
+        android:label="CalendarChangeFragment" >
+        <action
+            android:id="@+id/action_calendarChangeFragment_to_updateCalendarDialog"
+            app:destination="@id/updateCalendarDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/updateCalendarDialog"
+        android:name="com.example.aposs_admin.ui_controller.dialog.UpdateCalendarDialog"
+        android:label="UpdateCalendarDialog" >
+        <argument
+            android:name="calendarItem"
+            app:argType="com.example.aposs_admin.model.CalendarItem" />
+    </dialog>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.aposs_admin.ui_controller.search_fragment.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_fragmentDetailProduct"
+            app:destination="@id/fragmentDetailProduct" />
     </fragment>
 </navigation>

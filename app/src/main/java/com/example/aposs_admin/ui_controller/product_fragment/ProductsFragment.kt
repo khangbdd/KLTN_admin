@@ -70,6 +70,9 @@ class ProductsFragment : Fragment(), ViewTreeObserver.OnScrollChangedListener  {
     }
 
     private fun setUpSearchFilter() {
+        binding?.search?.setOnClickListener {
+            findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToSearchFragment())
+        }
         viewModel.searchText.observe(viewLifecycleOwner) {
             viewModel.filter()
         }

@@ -3,6 +3,7 @@ package com.example.aposs_admin.adapter
 import android.annotation.SuppressLint
 import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -13,7 +14,13 @@ import com.example.aposs_admin.databinding.ItemCategoryAndSubcategoryBinding
 import com.example.aposs_admin.databinding.ItemCategoryAndSubcategoryImageBinding
 import com.example.aposs_admin.model.Image
 
-class CategoryAndSubCategoryImageAdapter: ListAdapter<Image, CategoryAndSubCategoryImageAdapter.CategoryAndSubcategoryImageViewHolder>(DiffCallBack.instance!!) {
+class CategoryAndSubCategoryImageAdapter(val onClickListener: OnClickListener): ListAdapter<Image, CategoryAndSubCategoryImageAdapter.CategoryAndSubcategoryImageViewHolder>(DiffCallBack.instance!!) {
+
+    var isInEditMode: Boolean = false
+
+    interface OnClickListener {
+        fun removeImageClick(position: Int)
+    }
 
     class DiffCallBack : DiffUtil.ItemCallback<Image>() {
         override fun areItemsTheSame(
@@ -60,7 +67,15 @@ class CategoryAndSubCategoryImageAdapter: ListAdapter<Image, CategoryAndSubCateg
     }
 
     override fun onBindViewHolder(holder: CategoryAndSubcategoryImageViewHolder, position: Int) {
-        val currentOrder: Image = getItem(position)
-        holder.bind(currentOrder)
+        val currentImage: Image = getItem(position)
+        if(isInEditMode){
+            holder.binding.removeImage.visibility = View.VISIBLE
+            holder.binding.removeImage.setOnClickListener {
+                onClickListener.removeImageClick(position)
+            }
+        }else{
+            holder.binding.removeImage.visibility = View.GONE
+        }
+        holder.bind(currentImage)
     }
 }

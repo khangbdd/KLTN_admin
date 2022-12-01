@@ -259,7 +259,6 @@ class CreateSubcategoryFragment : Fragment() {
             }catch (e: IOException){
                 Toast.makeText(requireContext(), "Tải hình ảnh thất bại!", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 }

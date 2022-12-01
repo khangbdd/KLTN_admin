@@ -10,6 +10,7 @@ import com.example.aposs_admin.model.dto.ProductResponseDTO
 import com.example.aposs_admin.model.HomeProduct
 import com.example.aposs_admin.model.Image
 import com.example.aposs_admin.model.dto.ProductDTO
+import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.ProductRepository
 import com.example.aposs_admin.util.LoadingStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
     private val _products: MutableLiveData<ArrayList<HomeProduct>> = MutableLiveData(arrayListOf())
@@ -77,13 +79,24 @@ class ProductsViewModel @Inject constructor(
                             currentPage++
                         }
                         _status.postValue(LoadingStatus.Success)
+                    } else {
+                        if (getProductDeferred.code() == 401) {
+                            if (authRepository.loadNewAccessTokenSuccess()) {
+                                loadProducts()
+                            } else {
+                                _status.postValue(LoadingStatus.Fail)
+                            }
+                        } else {
+                            _status.postValue(LoadingStatus.Fail)
+                        }
                     }
                 } catch (e: Exception) {
                     if (e is SocketTimeoutException) {
                         loadProducts()
+                    } else {
+                        Log.d("exception", e.toString())
+                        _status.postValue(LoadingStatus.Fail)
                     }
-                    Log.d("exception", e.toString())
-                    _status.postValue(LoadingStatus.Fail)
                 }
             }
         }

@@ -58,6 +58,17 @@ class HomeFragment : Fragment() {
         binding?.btnPredict?.setOnClickListener {
             // navigate to predict
         }
+
+        if (AccountDatabase.getInstance(requireContext()).accountDao.getAccount()!!.userName != "admin@gmail.com")
+        {
+            binding?.btnAccount?.visibility = View.GONE
+        }
+        binding?.btnAccount?.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAccountManageFragment())
+        }
+        binding?.btnCalendar?.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCalendarChangeFragment())
+        }
     }
 
 
@@ -88,4 +99,5 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
 }

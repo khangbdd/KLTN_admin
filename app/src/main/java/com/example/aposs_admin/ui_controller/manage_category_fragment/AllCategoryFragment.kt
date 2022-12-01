@@ -37,6 +37,14 @@ class AllCategoryFragment : Fragment(), CategoryAndSubcategoryAdapter.OnClickLis
         binding.createNewCategory.setOnClickListener {
             findNavController().navigate(AllCategoryFragmentDirections.actionAllCategoryFragmentToCreateCategoryFragment())
         }
+
+        binding.createNewCategory.setOnClickListener {
+            findNavController().navigate(AllCategoryFragmentDirections.actionAllCategoryFragmentToCreateCategoryFragment())
+        }
+
+        binding.createNewCategory.setOnClickListener {
+            findNavController().navigate(AllCategoryFragmentDirections.actionAllCategoryFragmentToCreateCategoryFragment())
+        }
         // Inflate the layout for this fragment
         return binding.root
     }
