@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.aposs_admin.R
 import com.example.aposs_admin.adapter.*
 import com.example.aposs_admin.model.*
+import com.example.aposs_admin.model.dto.KindDTO
 import me.relex.circleindicator.CircleIndicator3
 
 @BindingAdapter("billingItemData")
@@ -90,6 +91,13 @@ fun bindListCategoryRecyclerView(recyclerView: RecyclerView, categoryNames: List
     val adapter = recyclerView.adapter as CategoryAndSubcategoryAdapter
     adapter.submitList(categoryNames)
 }
+
+@BindingAdapter("list_kind")
+fun bindListKindRecyclerView(recyclerView: RecyclerView, kinds: List<KindDTO>?){
+    val adapter = recyclerView.adapter as KindAdapter
+    adapter.submitList(kinds)
+}
+
 @BindingAdapter("category_images")
 fun bindListCategoryImageRecyclerView(recyclerView: RecyclerView, images: List<Image>?){
     val adapter = recyclerView.adapter as CategoryAndSubCategoryImageAdapter

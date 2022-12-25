@@ -147,4 +147,21 @@
             android:id="@+id/action_searchFragment_to_fragmentDetailProduct"
             app:destination="@id/fragmentDetailProduct" />
     </fragment>
+    <fragment
+        android:id="@+id/listProductFragment"
+        android:name="com.example.aposs_admin.ui_controller.list_product_fragment.ListProductFragment"
+        android:label="ListProductFragment" >
+        <argument
+            android:name="kindId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
+    <fragment
+        android:id="@+id/listKindFragment"
+        android:name="com.example.aposs_admin.ui_controller.list_kind_fragment.ListKindFragment"
+        android:label="ListKindFragment" >
+        <action
+            android:id="@+id/action_listKindFragment_to_listProductFragment"
+            app:destination="@id/listProductFragment" />
+    </fragment>
 </navigation>
