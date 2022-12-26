@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_homeFragment_to_calendarChangeFragment"
             app:destination="@id/calendarChangeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_listPredictFragment"
+            app:destination="@id/listPredictFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -163,5 +166,35 @@
         <action
             android:id="@+id/action_listKindFragment_to_listProductFragment"
             app:destination="@id/listProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPredictFragment"
+        android:name="com.example.aposs_admin.ui_controller.create_predict_fragment.CreatePredictFragment"
+        android:label="CreatePredictFragment" >
+        <action
+            android:id="@+id/action_createPredictFragment_to_listKindFragment"
+            app:destination="@id/listKindFragment" />
+        <action
+            android:id="@+id/action_createPredictFragment_to_listProductFragment"
+            app:destination="@id/listProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listPredictFragment"
+        android:name="com.example.aposs_admin.ui_controller.list_predict_fragment.ListPredictFragment"
+        android:label="ListPredictFragment" >
+        <action
+            android:id="@+id/action_listPredictFragment_to_createPredictFragment"
+            app:destination="@id/createPredictFragment" />
+        <action
+            android:id="@+id/action_listPredictFragment_to_detailPredictFragment"
+            app:destination="@id/detailPredictFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailPredictFragment"
+        android:name="com.example.aposs_admin.ui_controller.detail_predict_fragment.DetailPredictFragment"
+        android:label="DetailPredictFragment" >
+        <argument
+            android:name="predictID"
+            app:argType="long" />
     </fragment>
 </navigation>

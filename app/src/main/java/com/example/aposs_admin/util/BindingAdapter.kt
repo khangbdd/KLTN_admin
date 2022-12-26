@@ -13,6 +13,7 @@ import com.example.aposs_admin.R
 import com.example.aposs_admin.adapter.*
 import com.example.aposs_admin.model.*
 import com.example.aposs_admin.model.dto.KindDTO
+import com.example.aposs_admin.model.dto.PredictionRecordDTO
 import me.relex.circleindicator.CircleIndicator3
 
 @BindingAdapter("billingItemData")
@@ -97,6 +98,13 @@ fun bindListKindRecyclerView(recyclerView: RecyclerView, kinds: List<KindDTO>?){
     val adapter = recyclerView.adapter as KindAdapter
     adapter.submitList(kinds)
 }
+
+@BindingAdapter("list_predict")
+fun bindListPredictRecyclerView(recyclerView: RecyclerView, predict: List<PredictionRecordDTO>?){
+    val adapter = recyclerView.adapter as PredictionRecordAdapter
+    adapter.submitList(predict)
+}
+
 
 @BindingAdapter("category_images")
 fun bindListCategoryImageRecyclerView(recyclerView: RecyclerView, images: List<Image>?){

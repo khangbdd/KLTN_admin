@@ -1,5 +1,6 @@
 package com.example.aposs_admin.ui_controller.list_kind_fragment
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -39,7 +40,7 @@ class ListKindViewModel @Inject constructor(
                 val response = kindRepository.getAllKind()
                 if (response.isSuccessful) {
                     listOfAllKind.postValue(response.body() as MutableList<KindDTO>?)
-                    filter()
+                    (response.body() as MutableList<KindDTO>?)?.let { filter(it) }
                 }
             } catch (e:Exception) {
                 if (e is SocketTimeoutException) {
@@ -51,15 +52,19 @@ class ListKindViewModel @Inject constructor(
         }
     }
 
-    private fun filter() {
-        listDisplay.postValue(listOfAllKind.value!!.stream().filter {
-            it.name.contains(searchText.value!!)
+    private fun filter(listFull: MutableList<KindDTO>) {
+        listDisplay.postValue(listFull.stream().filter {
+            if (searchText.value != "" || searchText.value != null) {
+                it.name.contains(searchText.value!!)
+            } else {
+                true
+            }
         }.collect(Collectors.toList()))
     }
 
     fun setUpObserver(owner: LifecycleOwner) {
         searchText.observe(owner) {
-            filter()
+            filter(listOfAllKind.value!!)
         }
     }
 }

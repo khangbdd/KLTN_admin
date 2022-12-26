@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
         }
 
         binding?.btnPredict?.setOnClickListener {
-            // navigate to predict
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToListPredictFragment())
         }
 
         if (AccountDatabase.getInstance(requireContext()).accountDao.getAccount()!!.userName != "admin@gmail.com")

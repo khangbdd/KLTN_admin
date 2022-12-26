@@ -24,5 +24,9 @@ enum class LoadingStatus{
     Loading, Success, Fail, Init
 }
 
+enum class PredictionStatus {
+    Cancel, Success, Error, Processing
+}
+
 
 

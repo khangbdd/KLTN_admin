@@ -41,12 +41,24 @@ class ListProductViewModel @Inject constructor(
         }
     }
 
+    fun getNameById(id: Long): String {
+        for ( item in listOfAllProductOfKind.value!!) {
+            if (item.id == id) {
+                return item.name
+            }
+        }
+        return "Error"
+    }
+
     fun loadList(kindId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = productRepository.productService.getProductByKindId(kindId)
                 if (response.isSuccessful) {
                     listOfAllProductOfKind.postValue(response.body()?.content?.stream()?.map{
+                        convertProductDTOtoHomeProduct(it)
+                    }?.collect(Collectors.toList()) ?: mutableListOf())
+                    listDisplay.postValue(response.body()?.content?.stream()?.map{
                         convertProductDTOtoHomeProduct(it)
                     }?.collect(Collectors.toList()) ?: mutableListOf())
                 }

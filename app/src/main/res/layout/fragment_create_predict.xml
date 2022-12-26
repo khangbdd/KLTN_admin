@@ -89,7 +89,7 @@
             android:id="@+id/btn_select_kind"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Chọn danh mục dự báo"
+            android:text="@{viewModel.selectedKindName}"
             android:textColor="#616161"
             android:textAllCaps="false"
             android:textAlignment="viewStart"
@@ -131,7 +131,7 @@
             android:id="@+id/btn_select_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Chọn sản phẩm dự báo"
+            android:text="@{viewModel.selectedProductName}"
             android:textColor="#616161"
             android:textAllCaps="false"
             android:textAlignment="viewStart"
@@ -177,7 +177,7 @@
             app:layout_constraintTop_toBottomOf="@id/btn_select_product">
 
             <AutoCompleteTextView
-                android:id="@+id/month"
+                android:id="@+id/selector"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="15dp"
@@ -200,13 +200,13 @@
             app:layout_constraintRight_toLeftOf="@id/pick_meter"
             app:layout_constraintTop_toBottomOf="@id/btn_select_product">
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:inputType="numberDecimal"-->
-<!--            android:padding="15dp"-->
-<!--            android:text="@={viewModel.name}"-->
-<!--            android:textFontWeight="400" />-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:padding="15dp"
+            android:text="@={viewModel.numberOfDate}"
+            android:textFontWeight="400" />
         </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:id="@+id/tv_note_date"
@@ -222,6 +222,7 @@
 
 
 <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/btn_predict"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="15dp"
