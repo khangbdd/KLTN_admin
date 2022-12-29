@@ -41,7 +41,7 @@ class ListPredictFragment : Fragment() {
             override fun onClick(predict: PredictionRecordDTO) {
                 // fix later
                 findNavController().navigate(ListPredictFragmentDirections.actionListPredictFragmentToDetailPredictFragment(
-                    1
+                    predict.id
                 ))
             }
         })

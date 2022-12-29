@@ -15,7 +15,7 @@ data class PredictionDetailDTO (
     var subcategoryName: String? = null,
     var predictionStatus: PredictionStatus? = null,
     val description: String? = null,
-    val recordItemDTOList: List<PredictionRecordItemDTO>? = null
+    val recordItemDTOList: List<PredictionRecordItemDTO>? = mutableListOf()
 ){
     fun getFullFromToDate(): String {
         return "$fromDate - $toDate"

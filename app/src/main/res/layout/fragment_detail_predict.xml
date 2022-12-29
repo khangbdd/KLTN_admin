@@ -86,8 +86,9 @@ xmlns:tools="http://schemas.android.com/tools">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingHorizontal="20dp">
+
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
@@ -95,9 +96,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="Tên dự báo: "
                 android:textSize="16dp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/tv_name_info"
                 android:layout_width="match_parent"
@@ -105,9 +107,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="@{viewModel.detailPredictDTO.name}"
                 android:textSize="16dp"
                 android:textStyle="normal"
-                app:layout_constraintTop_toBottomOf="@id/tv_name"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
             <TextView
                 android:id="@+id/tv_description"
                 android:layout_width="match_parent"
@@ -115,9 +118,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="Mô tả dự báo: "
                 android:textSize="16dp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/tv_name_info"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_name_info" />
+
             <TextView
                 android:id="@+id/tv_description_info"
                 android:layout_width="match_parent"
@@ -125,9 +129,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="@{viewModel.detailPredictDTO.description}"
                 android:textSize="16dp"
                 android:textStyle="normal"
-                app:layout_constraintTop_toBottomOf="@id/tv_description"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_description" />
+
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
@@ -135,9 +140,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="Thời gian tạo: "
                 android:textSize="16dp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_info"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/tv_time_info"/>
+                app:layout_constraintRight_toLeftOf="@id/tv_time_info"
+                app:layout_constraintTop_toBottomOf="@id/tv_description_info" />
+
             <TextView
                 android:id="@+id/tv_time_info"
                 android:layout_width="0dp"
@@ -145,9 +151,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="@{viewModel.detailPredictDTO.createDate}"
                 android:textSize="16dp"
                 android:textStyle="normal"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_info"
                 app:layout_constraintLeft_toRightOf="@id/tv_time"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_description_info" />
+
             <TextView
                 android:id="@+id/tv_kind"
                 android:layout_width="match_parent"
@@ -155,9 +162,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="Danh mục: "
                 android:textSize="16dp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/tv_time_info"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_time_info" />
+
             <TextView
                 android:id="@+id/tv_kind_info"
                 android:layout_width="0dp"
@@ -165,9 +173,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="@{viewModel.detailPredictDTO.subcategoryName}"
                 android:textSize="16dp"
                 android:textStyle="normal"
-                app:layout_constraintTop_toBottomOf="@id/tv_kind"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_kind" />
+
             <TextView
                 android:id="@+id/tv_product"
                 android:layout_width="match_parent"
@@ -175,9 +184,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="Sản phẩm: "
                 android:textSize="16dp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/tv_kind_info"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_kind_info" />
+
             <TextView
                 android:id="@+id/tv_product_info"
                 android:layout_width="0dp"
@@ -185,9 +195,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="@{viewModel.detailPredictDTO.productName}"
                 android:textSize="16dp"
                 android:textStyle="normal"
-                app:layout_constraintTop_toBottomOf="@id/tv_product"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_product" />
+
             <TextView
                 android:id="@+id/tv_period"
                 android:layout_width="wrap_content"
@@ -195,9 +206,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="Thời gian: "
                 android:textSize="16dp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/tv_product_info"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/tv_period_info"/>
+                app:layout_constraintRight_toLeftOf="@id/tv_period_info"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_info" />
+
             <TextView
                 android:id="@+id/tv_period_info"
                 android:layout_width="0dp"
@@ -205,9 +217,10 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="@{viewModel.detailPredictDTO.fullFromToDate}"
                 android:textSize="16dp"
                 android:textStyle="normal"
-                app:layout_constraintTop_toBottomOf="@id/tv_product_info"
                 app:layout_constraintLeft_toRightOf="@id/tv_period"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_info" />
+
             <TextView
                 android:id="@+id/tv_graph"
                 android:layout_width="match_parent"
@@ -215,9 +228,21 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:text="So với thực tế: "
                 android:textSize="16dp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/tv_period"
+                app:layout_constraintBottom_toTopOf="@id/linechart"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_period"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/linechart"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_graph" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
