@@ -29,7 +29,7 @@ class ListPredictViewModel @Inject constructor(
         loadAllPredictRecord()
     }
 
-    private fun loadAllPredictRecord() {
+    fun loadAllPredictRecord() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = predictRepository.getAllPredict()

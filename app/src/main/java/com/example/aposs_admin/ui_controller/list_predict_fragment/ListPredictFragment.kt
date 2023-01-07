@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListPredictFragment : Fragment() {
 
     private var binding: FragmentListPredictBinding? = null
-    private val viewModel: ListPredictViewModel by viewModels()
+    private val viewModel: ListPredictViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +40,6 @@ class ListPredictFragment : Fragment() {
         binding?.viewModel = viewModel
         binding?.rcPredicts?.adapter = PredictionRecordAdapter(object : PredictionRecordAdapter.OnClickListener {
             override fun onClick(predict: PredictionRecordDTO) {
-                // fix later
                 findNavController().navigate(ListPredictFragmentDirections.actionListPredictFragmentToDetailPredictFragment(
                     predict.id
                 ))

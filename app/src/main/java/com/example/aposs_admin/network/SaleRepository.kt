@@ -17,14 +17,16 @@ class SaleRepository @Inject constructor() {
 
     suspend fun loadSaleDataByProduct(
         productId: Long,
+        frequency: String,
     ): Response<List<SaleDTO>> {
-        return saleService.loadSaleDataByProduct(productId)
+        return saleService.loadSaleDataByProduct(productId, frequency)
     }
 
     suspend fun loadSaleDataBySubcategory(
         subcategoryId: Long,
+        frequency: String,
     ): Response<List<SaleDTO>> {
-        return saleService.loadSaleDataBySubcategory(subcategoryId)
+        return saleService.loadSaleDataBySubcategory(subcategoryId, frequency)
     }
 
     suspend fun loadSaleDataByProductBetweenDate(

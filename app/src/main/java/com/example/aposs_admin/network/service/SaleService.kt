@@ -12,11 +12,13 @@ interface SaleService {
     @GET("sale/all/product/{productId}")
     suspend fun loadSaleDataByProduct(
         @Path(value = "productId") productId: Long,
+        @Query(value = "frequency") frequency: String = "D"
     ): Response<List<SaleDTO>>
 
     @GET("sale/all/subcategory/{subcategoryId}")
     suspend fun loadSaleDataBySubcategory(
         @Path(value = "subcategoryId") subcategoryId: Long,
+        @Query(value = "frequency") frequency: String = "D"
     ): Response<List<SaleDTO>>
 
     @GET("sale/product/{productId}")

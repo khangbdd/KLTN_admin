@@ -15,12 +15,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
 import com.example.aposs_admin.databinding.FragmentCreateCategoryBinding
 import com.example.aposs_admin.databinding.FragmentCreatePredictBinding
+import com.example.aposs_admin.ui_controller.list_predict_fragment.ListPredictViewModel
 
 
 class CreatePredictFragment : Fragment() {
 
     private var binding: FragmentCreatePredictBinding? = null
     private val viewModel: CreatePredictViewModel by activityViewModels()
+    private val listViewModel: ListPredictViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +112,7 @@ class CreatePredictFragment : Fragment() {
         }
         viewModel.createPredict(binding?.selector?.text.toString()) {
             Toast.makeText(this.requireContext(), "Tạo dự báo thành công", Toast.LENGTH_SHORT).show()
+            listViewModel.loadAllPredictRecord()
             findNavController().popBackStack()
         }
     }

@@ -21,7 +21,7 @@ interface PredictService {
         @Header("Authorization") accessToken: String?
     ): Response<Unit>
 
-    @GET("prediction/all")
+    @GET("prediction/all?isActiveOnly=true")
     suspend fun getAllPredict(): Response<List<PredictionRecordDTO>>
 
     @GET("prediction/{id}")

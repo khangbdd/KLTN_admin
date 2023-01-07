@@ -133,10 +133,11 @@
 
                 <ImageView
                     android:id="@+id/btn_account"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="323dp"
+                    android:layout_height="119dp"
                     android:layout_marginTop="12dp"
-                    android:src="@drawable/bg_bank"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/account"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btn_bank" />
@@ -146,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:src="@drawable/bg_bank"
+                    android:src="@drawable/calendar"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btn_account" />

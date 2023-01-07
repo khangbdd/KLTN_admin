@@ -15,6 +15,7 @@ data class PredictionDetailDTO (
     var subcategoryName: String? = null,
     var predictionStatus: PredictionStatus? = null,
     val description: String? = null,
+    val frequency: String = "D",
     val recordItemDTOList: List<PredictionRecordItemDTO>? = mutableListOf()
 ){
     fun getFullFromToDate(): String {
