@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.EntryXComparator
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.ParseException
@@ -37,6 +38,7 @@ class DetailPredictFragment : Fragment() {
     private var binding: FragmentDetailPredictBinding? = null
     private val viewModel: DetailPredictViewModel by viewModels()
     private val arg: DetailPredictFragmentArgs by navArgs()
+    private var isDonePrepare: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,12 +69,38 @@ class DetailPredictFragment : Fragment() {
         }
         configureLineChart()
         viewModel.startIndex.observe(viewLifecycleOwner) {
-            setValueForLineChart()
+            if (it != -1) {
+                showChartIfNeed()
+            }
+        }
+        viewModel.detailPredictDTO.observe(viewLifecycleOwner) {
+            if (it.recordItemDTOList!!.isNotEmpty()) {
+                showChartIfNeed()
+            }
+        }
+        viewModel.listOldSale.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                showChartIfNeed()
+            }
+        }
+        viewModel.listFullDate.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                showChartIfNeed()
+            }
         }
         binding?.back?.setOnClickListener {
             findNavController().popBackStack()
         }
         return binding?.root!!
+    }
+
+    private fun showChartIfNeed() {
+        if (isDonePrepare < 4) {
+            isDonePrepare++
+        }
+        if (isDonePrepare == 4) {
+            setValueForLineChart()
+        }
     }
 
     private fun configureLineChart() {
@@ -100,7 +128,7 @@ class DetailPredictFragment : Fragment() {
         binding?.linechart?.layoutParams?.width = ViewGroup.LayoutParams.MATCH_PARENT
         binding?.linechart?.data = lineData
         binding?.linechart?.setVisibleXRangeMaximum(10F)
-        binding?.linechart?.setMaxVisibleValueCount(5)
+        binding?.linechart?.notifyDataSetChanged()
         binding?.linechart?.moveViewToX(viewModel.listFullDate.value!!.size.toFloat())
     }
 
@@ -118,7 +146,8 @@ class DetailPredictFragment : Fragment() {
         Collections.sort(entries, EntryXComparator())
         val dataSet = LineDataSet(entries, label)
         dataSet.color = Color.parseColor(color)
-        dataSet.setDrawCircles(false)
+        dataSet.setDrawCircles(true)
+        dataSet.setDrawValues(true)
         return dataSet
     }
 
@@ -138,7 +167,8 @@ class DetailPredictFragment : Fragment() {
             Collections.sort(entries, EntryXComparator())
             val dataSet = LineDataSet(entries, label)
             dataSet.color = Color.parseColor(color)
-            dataSet.setDrawCircles(false)
+            dataSet.setDrawCircles(true)
+            dataSet.setDrawValues(true)
             return dataSet
         }
         return LineDataSet(entries, label)

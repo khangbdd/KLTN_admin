@@ -24,9 +24,10 @@ class DetailPredictViewModel @Inject constructor(
     private val predictRepository: PredictRepository,
     private val saleRepository: SaleRepository,
     private val authRepository: AuthRepository
-) : ViewModel(){
+) : ViewModel() {
 
-    val detailPredictDTO: MutableLiveData<PredictionDetailDTO> = MutableLiveData(PredictionDetailDTO())
+    val detailPredictDTO: MutableLiveData<PredictionDetailDTO> =
+        MutableLiveData(PredictionDetailDTO())
     val listOldSale: MutableLiveData<MutableList<SaleDTO>> = MutableLiveData(mutableListOf())
     val listFullDate: MutableLiveData<MutableList<String>> = MutableLiveData(mutableListOf())
     var startIndex: MutableLiveData<Int> = MutableLiveData(-1)
@@ -36,10 +37,10 @@ class DetailPredictViewModel @Inject constructor(
             try {
                 val response = predictRepository.getDetailPredict(id)
                 if (response.isSuccessful) {
-                    detailPredictDTO.postValue(response.body())
-                    response.body()?.let { loadSales(it) }
-                    response.body()?.predictionStatus?.let {
-                        withContext(Dispatchers.Main) {
+                    withContext(Dispatchers.Main) {
+                        detailPredictDTO.value = (response.body())
+                        response.body()?.let { loadSales(it) }
+                        response.body()?.predictionStatus?.let {
                             onSuccess(it)
                         }
                     }
@@ -69,20 +70,34 @@ class DetailPredictViewModel @Inject constructor(
     }
 
     fun loadSales(predictionDetailDTO: PredictionDetailDTO) {
-       if (predictionDetailDTO.productID == -1L) {
-           loadSaleByProduct(predictionDetailDTO.productID, predictionDetailDTO.frequency, predictionDetailDTO)
-           return
-       }
-        loadSaleByKind(predictionDetailDTO.subcategoryId, predictionDetailDTO.frequency, predictionDetailDTO)
+        if (predictionDetailDTO.productID == -1L) {
+            loadSaleByProduct(
+                predictionDetailDTO.productID,
+                predictionDetailDTO.frequency,
+                predictionDetailDTO
+            )
+            return
+        }
+        loadSaleByKind(
+            predictionDetailDTO.subcategoryId,
+            predictionDetailDTO.frequency,
+            predictionDetailDTO
+        )
     }
 
-    private fun loadSaleByKind(kindID: Long, frequency: String, predictionDetailDTO: PredictionDetailDTO) {
+    private fun loadSaleByKind(
+        kindID: Long,
+        frequency: String,
+        predictionDetailDTO: PredictionDetailDTO
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = saleRepository.loadSaleDataBySubcategory(kindID, frequency)
                 if (response.isSuccessful) {
                     response.body()?.let { loadFullDate(predictionDetailDTO, it) }
-                    listOldSale.postValue(response.body() as MutableList<SaleDTO>?)
+                    withContext(Dispatchers.Main) {
+                        listOldSale.value = (response.body() as MutableList<SaleDTO>?)
+                    }
                 }
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {
@@ -94,13 +109,19 @@ class DetailPredictViewModel @Inject constructor(
         }
     }
 
-    private fun loadSaleByProduct(productId: Long, frequency: String, predictionDetailDTO: PredictionDetailDTO) {
+    private fun loadSaleByProduct(
+        productId: Long,
+        frequency: String,
+        predictionDetailDTO: PredictionDetailDTO
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = saleRepository.loadSaleDataByProduct(productId, frequency)
                 if (response.isSuccessful) {
                     response.body()?.let { loadFullDate(predictionDetailDTO, it) }
-                    listOldSale.postValue(response.body() as MutableList<SaleDTO>?)
+                    withContext(Dispatchers.Main) {
+                        listOldSale.value = (response.body() as MutableList<SaleDTO>?)
+                    }
                 }
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {
