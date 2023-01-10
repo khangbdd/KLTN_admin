@@ -13,6 +13,8 @@ import com.example.aposs_admin.R
 import com.example.aposs_admin.adapter.PredictionRecordAdapter
 import com.example.aposs_admin.databinding.FragmentListPredictBinding
 import com.example.aposs_admin.model.dto.PredictionRecordDTO
+import com.example.aposs_admin.ui_controller.dialog.DeletePredictYesNoDialog
+import com.example.aposs_admin.ui_controller.dialog.YesNoDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,12 +40,20 @@ class ListPredictFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_list_predict, container, false)
         binding?.lifecycleOwner = viewLifecycleOwner
         binding?.viewModel = viewModel
+        viewModel.loadAllPredictRecord()
         binding?.rcPredicts?.adapter = PredictionRecordAdapter(object : PredictionRecordAdapter.OnClickListener {
             override fun onClick(predict: PredictionRecordDTO) {
                 findNavController().navigate(ListPredictFragmentDirections.actionListPredictFragmentToDetailPredictFragment(
                     predict.id
                 ))
             }
+        }, object : PredictionRecordAdapter.OnDeletePredictClickListener {
+            override fun onDeletePredictClick(predict: PredictionRecordDTO) {
+                fragmentManager?.beginTransaction()
+                    ?.add(DeletePredictYesNoDialog(requireContext(), "Xác nhận xóa dự báo ${predict.name}?", predict), null)
+                    ?.commit()
+            }
+
         })
         binding?.createNewPredict?.setOnClickListener {
             findNavController().navigate(ListPredictFragmentDirections.actionListPredictFragmentToCreatePredictFragment())

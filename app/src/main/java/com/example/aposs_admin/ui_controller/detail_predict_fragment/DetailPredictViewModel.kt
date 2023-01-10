@@ -4,9 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.aposs_admin.model.dto.DetailCategoryDTO
 import com.example.aposs_admin.model.dto.PredictionDetailDTO
-import com.example.aposs_admin.model.dto.PredictionRecordDTO
 import com.example.aposs_admin.model.dto.SaleDTO
 import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.PredictRepository
@@ -17,6 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.SocketTimeoutException
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +31,7 @@ class DetailPredictViewModel @Inject constructor(
         MutableLiveData(PredictionDetailDTO())
     val listOldSale: MutableLiveData<MutableList<SaleDTO>> = MutableLiveData(mutableListOf())
     val listFullDate: MutableLiveData<MutableList<String>> = MutableLiveData(mutableListOf())
-    var startIndex: MutableLiveData<Int> = MutableLiveData(-1)
+//    var startIndex: MutableLiveData<Int> = MutableLiveData(-1)
 
     fun loadDetailPredictDTO(id: Long, onSuccess: (PredictionStatus) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -65,8 +66,23 @@ class DetailPredictViewModel @Inject constructor(
                 temptList.add(it.date)
             }
         }
+        temptList.sortBy {
+            toMillis(it)
+        }
         listFullDate.postValue(temptList)
-        getStartIndex(prediction, temptList)
+        loadListOfIndex(real, prediction, temptList)
+    }
+
+//    fun compare(firstDateString: String, secondDateString: String): Boolean {
+//        val sdf = SimpleDateFormat("dd-MM-yyyy")
+//        val firstDateMillis = sdf.parse(firstDateString)?.time?:0
+//        val secondDateMillis = sdf.parse(secondDateString)?.time?:0
+//        return firstDateMillis <= secondDateMillis
+//    }
+
+    fun toMillis(dateString: String): Long {
+        val sdf = SimpleDateFormat("dd-MM-yyyy")
+        return sdf.parse(dateString)?.time?:0
     }
 
     fun loadSales(predictionDetailDTO: PredictionDetailDTO) {
@@ -133,18 +149,33 @@ class DetailPredictViewModel @Inject constructor(
         }
     }
 
-    fun getStartIndex(predictionDetailDTO: PredictionDetailDTO, fullDate: List<String>) {
-        val startPredictDate = predictionDetailDTO.recordItemDTOList!![0].date
-        var startTemptIndex = 0
-        for (date in fullDate) {
-            Log.i("DetailPredictFragment2", date)
+    val listIndexOfPredict: MutableLiveData<MutableList<Int>> = MutableLiveData(mutableListOf())
+    val listIndexOfSale: MutableLiveData<MutableList<Int>> = MutableLiveData(mutableListOf())
+//    fun getStartIndex(predictionDetailDTO: PredictionDetailDTO, fullDate: List<String>) {
+//        val startPredictDate = predictionDetailDTO.recordItemDTOList!![0].date
+//        var startTemptIndex = 0
+//        for (date in fullDate) {
+//            Log.i("DetailPredictFragment2", date)
+//        }
+//        for (date in fullDate) {
+//            if (startPredictDate == date) {
+//                startIndex.postValue(startTemptIndex)
+//                return
+//            }
+//            startTemptIndex++
+//        }
+//    }
+
+    fun loadListOfIndex(real: List<SaleDTO>, predictionDetailDTO: PredictionDetailDTO, fullDate: List<String>) {
+        val tempIndexesOfPredict = mutableListOf<Int>()
+        val tempIndexesOfSale = mutableListOf<Int>()
+        predictionDetailDTO.recordItemDTOList?.stream()?.forEach {
+            tempIndexesOfPredict.add(fullDate.indexOf(it.date))
         }
-        for (date in fullDate) {
-            if (startPredictDate == date) {
-                startIndex.postValue(startTemptIndex)
-                return
-            }
-            startTemptIndex++
+        real.stream().forEach {
+            tempIndexesOfSale.add(fullDate.indexOf(it.date))
         }
+        listIndexOfPredict.postValue(tempIndexesOfPredict)
+        listIndexOfSale.postValue(tempIndexesOfSale)
     }
 }

@@ -68,11 +68,11 @@ class DetailPredictFragment : Fragment() {
             }
         }
         configureLineChart()
-        viewModel.startIndex.observe(viewLifecycleOwner) {
-            if (it != -1) {
-                showChartIfNeed()
-            }
-        }
+//        viewModel.startIndex.observe(viewLifecycleOwner) {
+//            if (it != -1) {
+//                showChartIfNeed()
+//            }
+//        }
         viewModel.detailPredictDTO.observe(viewLifecycleOwner) {
             if (it.recordItemDTOList!!.isNotEmpty()) {
                 showChartIfNeed()
@@ -88,6 +88,16 @@ class DetailPredictFragment : Fragment() {
                 showChartIfNeed()
             }
         }
+        viewModel.listIndexOfPredict.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                showChartIfNeed()
+            }
+        }
+        viewModel.listIndexOfSale.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                showChartIfNeed()
+            }
+        }
         binding?.back?.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -95,10 +105,10 @@ class DetailPredictFragment : Fragment() {
     }
 
     private fun showChartIfNeed() {
-        if (isDonePrepare < 4) {
+        if (isDonePrepare < 5) {
             isDonePrepare++
         }
-        if (isDonePrepare == 4) {
+        if (isDonePrepare == 5) {
             setValueForLineChart()
         }
     }
@@ -140,7 +150,7 @@ class DetailPredictFragment : Fragment() {
         val entries = ArrayList<Entry>()
         var index = 0
         for (data in sales) {
-            entries.add(Entry(index.toFloat(), data.sale.toFloat()))
+            entries.add(Entry(viewModel.listIndexOfSale.value!![index].toFloat(), data.sale.toFloat()))
             index++
         }
         Collections.sort(entries, EntryXComparator())
@@ -157,20 +167,17 @@ class DetailPredictFragment : Fragment() {
         label: String
     ): LineDataSet {
         val entries = ArrayList<Entry>()
-        if (viewModel.startIndex.value != -1) {
-            var startIndex = viewModel.startIndex.value!!
-            Log.i("DetailPredictFragment", startIndex.toString())
-            for (data in sales) {
-                entries.add(Entry(startIndex.toFloat(), data.sale.toFloat()))
-                startIndex++
-            }
-            Collections.sort(entries, EntryXComparator())
-            val dataSet = LineDataSet(entries, label)
-            dataSet.color = Color.parseColor(color)
-            dataSet.setDrawCircles(true)
-            dataSet.setDrawValues(true)
-            return dataSet
+        var index = 0
+        for (data in sales) {
+            entries.add(Entry(viewModel.listIndexOfPredict.value!![index].toFloat(), data.sale.toFloat()))
+            index++
         }
+        Collections.sort(entries, EntryXComparator())
+        val dataSet = LineDataSet(entries, label)
+        dataSet.color = Color.parseColor(color)
+        dataSet.setDrawCircles(true)
+        dataSet.setDrawValues(true)
+        return dataSet
         return LineDataSet(entries, label)
     }
 }

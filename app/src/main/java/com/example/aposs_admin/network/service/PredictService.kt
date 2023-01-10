@@ -28,4 +28,10 @@ interface PredictService {
     suspend fun getDetailPredict(
         @Path(value = "id") predictId: Long
     ): Response<PredictionDetailDTO>
+
+    @DELETE("prediction/{id}")
+    suspend fun deletePredict(
+        @Path(value = "id") predictId: Long,
+        @Header("Authorization") accessToken: String?
+    ): Response<Unit>
 }

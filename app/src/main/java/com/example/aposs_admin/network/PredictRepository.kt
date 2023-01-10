@@ -27,4 +27,8 @@ class PredictRepository @Inject constructor() {
     suspend fun getDetailPredict(predictID: Long): Response<PredictionDetailDTO> {
         return predictService.getDetailPredict(predictID)
     }
+
+    suspend fun deletePredict(predictID: Long, accessToken: String?): Response<Unit> {
+        return predictService.deletePredict(predictID, accessToken)
+    }
 }

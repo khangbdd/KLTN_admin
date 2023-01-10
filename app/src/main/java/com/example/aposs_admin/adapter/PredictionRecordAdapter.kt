@@ -16,10 +16,15 @@ import com.example.aposs_admin.model.dto.KindDTO
 import com.example.aposs_admin.model.dto.PredictionRecordDTO
 import com.example.aposs_admin.util.PredictionStatus
 
-class PredictionRecordAdapter(private val onClickListener: OnClickListener): ListAdapter<PredictionRecordDTO, PredictionRecordAdapter.PredictionRecordViewHolder>(DiffCallBack.instance!!) {
+class PredictionRecordAdapter(private val onClickListener: OnClickListener,
+private val onDeletePredictClickListener: OnDeletePredictClickListener): ListAdapter<PredictionRecordDTO, PredictionRecordAdapter.PredictionRecordViewHolder>(DiffCallBack.instance!!) {
 
     interface OnClickListener {
         fun onClick(predict: PredictionRecordDTO)
+    }
+
+    interface OnDeletePredictClickListener {
+        fun onDeletePredictClick(predict: PredictionRecordDTO)
     }
 
     class DiffCallBack : DiffUtil.ItemCallback<PredictionRecordDTO>() {
@@ -113,5 +118,6 @@ class PredictionRecordAdapter(private val onClickListener: OnClickListener): Lis
         val currentPredict: PredictionRecordDTO = getItem(position)
         holder.bind(currentPredict)
         holder.itemView.setOnClickListener { onClickListener.onClick(currentPredict) }
+        holder.binding.imgDelete.setOnClickListener { onDeletePredictClickListener.onDeletePredictClick(currentPredict)}
     }
 }

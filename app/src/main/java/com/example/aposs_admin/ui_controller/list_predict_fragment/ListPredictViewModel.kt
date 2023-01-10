@@ -7,6 +7,7 @@ import com.example.aposs_admin.model.dto.PredictionInfo
 import com.example.aposs_admin.model.dto.PredictionRecordDTO
 import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.PredictRepository
+import com.example.aposs_admin.util.LoadingStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +40,36 @@ class ListPredictViewModel @Inject constructor(
             } catch (e: Exception) {
                 if (e is SocketTimeoutException) {
                     loadAllPredictRecord()
+                } else {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    fun deletePredictRecord(predictionRecordDTO: PredictionRecordDTO, onSuccess: ()->Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = predictRepository.deletePredict(predictionRecordDTO.id, authRepository.getCurrentAccessTokenFromRoom())
+                if (response.isSuccessful) {
+                    loadAllPredictRecord()
+                    withContext(Dispatchers.Main) {
+                        onSuccess()
+                    }
+                } else {
+                    if (response.code() == 401) {
+                        if (authRepository.loadNewAccessTokenSuccess()) {
+                            deletePredictRecord(predictionRecordDTO, onSuccess)
+                        } else {
+                            // fail
+                        }
+                    } else {
+                        // fail
+                    }
+                }
+            } catch (e: Exception) {
+                if (e is SocketTimeoutException) {
+                    deletePredictRecord(predictionRecordDTO, onSuccess)
                 } else {
                     e.printStackTrace()
                 }
