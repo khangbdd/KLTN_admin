@@ -3,6 +3,7 @@ package com.example.aposs_admin.network
 import com.example.aposs_admin.model.dto.PredictionDetailDTO
 import com.example.aposs_admin.model.dto.PredictionInfo
 import com.example.aposs_admin.model.dto.PredictionRecordDTO
+import com.example.aposs_admin.model.dto.UpdatePredictDTO
 import com.example.aposs_admin.network.service.PredictService
 import retrofit2.Response
 import javax.inject.Inject
@@ -30,5 +31,9 @@ class PredictRepository @Inject constructor() {
 
     suspend fun deletePredict(predictID: Long, accessToken: String?): Response<Unit> {
         return predictService.deletePredict(predictID, accessToken)
+    }
+
+    suspend fun updatePredict(updatePredictDTO: UpdatePredictDTO ,accessToken: String?): Response<Unit> {4
+        return predictService.updatePredict(updatePredictDTO, accessToken)
     }
 }

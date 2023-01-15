@@ -9,8 +9,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultOwner
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.aposs_admin.R
+import com.example.aposs_admin.model.dto.PredictionDetailDTO
 import com.example.aposs_admin.model.dto.PredictionRecordDTO
 import com.example.aposs_admin.ui_controller.account_manage_fragment.AccountManageViewModel
 import com.example.aposs_admin.ui_controller.list_predict_fragment.ListPredictViewModel
@@ -20,7 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class DeletePredictYesNoDialog (
     private val owner: Context,
     private val content: String,
-    private val predictionRecordDTO: PredictionRecordDTO
+    private val predictionRecordDTO: PredictionDetailDTO,
+    private val navController: NavController
     ): DialogFragment() {
     private val viewModel: ListPredictViewModel by activityViewModels()
 
@@ -34,7 +37,7 @@ class DeletePredictYesNoDialog (
                     Toast.makeText(this.requireContext(), "Xóa thành công", Toast.LENGTH_SHORT)
                         .show()
                     getDialog()?.cancel()
-                    findNavController().popBackStack()
+                    navController.popBackStack()
                 }
             }
             .setNegativeButton(R.string.delete_cancel) { dialog, id ->

@@ -3,6 +3,7 @@ package com.example.aposs_admin.network.service
 import com.example.aposs_admin.model.dto.PredictionDetailDTO
 import com.example.aposs_admin.model.dto.PredictionInfo
 import com.example.aposs_admin.model.dto.PredictionRecordDTO
+import com.example.aposs_admin.model.dto.UpdatePredictDTO
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -32,6 +33,12 @@ interface PredictService {
     @DELETE("prediction/{id}")
     suspend fun deletePredict(
         @Path(value = "id") predictId: Long,
+        @Header("Authorization") accessToken: String?
+    ): Response<Unit>
+
+    @PUT("prediction")
+    suspend fun updatePredict(
+        @Body updatePredictDTO: UpdatePredictDTO,
         @Header("Authorization") accessToken: String?
     ): Response<Unit>
 }

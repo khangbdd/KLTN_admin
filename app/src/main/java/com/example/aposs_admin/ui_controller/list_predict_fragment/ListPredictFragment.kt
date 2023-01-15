@@ -49,9 +49,9 @@ class ListPredictFragment : Fragment() {
             }
         }, object : PredictionRecordAdapter.OnDeletePredictClickListener {
             override fun onDeletePredictClick(predict: PredictionRecordDTO) {
-                fragmentManager?.beginTransaction()
-                    ?.add(DeletePredictYesNoDialog(requireContext(), "Xác nhận xóa dự báo ${predict.name}?", predict), null)
-                    ?.commit()
+//                fragmentManager?.beginTransaction()
+//                    ?.add(DeletePredictYesNoDialog(requireContext(), "Xác nhận xóa dự báo ${predict.name}?", predict), null)
+//                    ?.commit()
             }
 
         })

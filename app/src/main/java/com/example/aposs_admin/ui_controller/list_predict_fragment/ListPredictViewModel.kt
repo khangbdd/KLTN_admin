@@ -3,6 +3,8 @@ package com.example.aposs_admin.ui_controller.list_predict_fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.aposs_admin.model.dto.DetailCategoryDTO
+import com.example.aposs_admin.model.dto.PredictionDetailDTO
 import com.example.aposs_admin.model.dto.PredictionInfo
 import com.example.aposs_admin.model.dto.PredictionRecordDTO
 import com.example.aposs_admin.network.AuthRepository
@@ -47,7 +49,7 @@ class ListPredictViewModel @Inject constructor(
         }
     }
 
-    fun deletePredictRecord(predictionRecordDTO: PredictionRecordDTO, onSuccess: ()->Unit) {
+    fun deletePredictRecord(predictionRecordDTO: PredictionDetailDTO, onSuccess: ()->Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = predictRepository.deletePredict(predictionRecordDTO.id, authRepository.getCurrentAccessTokenFromRoom())

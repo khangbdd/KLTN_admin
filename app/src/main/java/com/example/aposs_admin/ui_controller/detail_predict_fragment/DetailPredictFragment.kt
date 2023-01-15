@@ -15,6 +15,7 @@ import com.example.aposs_admin.R
 import com.example.aposs_admin.databinding.FragmentDetailPredictBinding
 import com.example.aposs_admin.model.dto.PredictionRecordItemDTO
 import com.example.aposs_admin.model.dto.SaleDTO
+import com.example.aposs_admin.ui_controller.dialog.DeletePredictYesNoDialog
 import com.example.aposs_admin.util.PredictionStatus
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
@@ -100,6 +101,15 @@ class DetailPredictFragment : Fragment() {
         }
         binding?.back?.setOnClickListener {
             findNavController().popBackStack()
+        }
+        binding?.btnDelete?.setOnClickListener {
+            fragmentManager?.beginTransaction()
+                ?.add(DeletePredictYesNoDialog(requireContext(), "Xác nhận xóa dự báo ${viewModel.detailPredictDTO.value!!.name}?", viewModel.detailPredictDTO.value!!, findNavController()), null)
+                ?.commit()
+        }
+        binding?.btnEdit?.setOnClickListener {
+            val passingData = viewModel.detailPredictDTO.value!!
+            findNavController().navigate(DetailPredictFragmentDirections.actionDetailPredictFragmentToChangePredictInfoFragment(passingData.name?:"", passingData.description?:"", passingData.id))
         }
         return binding?.root!!
     }

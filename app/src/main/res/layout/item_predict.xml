@@ -24,6 +24,7 @@
         android:id="@+id/img_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@id/tv_name_info"
         android:src="@drawable/delete_predict"
         app:layout_constraintTop_toTopOf="parent"

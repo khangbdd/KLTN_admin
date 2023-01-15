@@ -196,5 +196,23 @@
         <argument
             android:name="predictID"
             app:argType="long" />
+        <action
+            android:id="@+id/action_detailPredictFragment_to_changePredictInfoFragment"
+            app:destination="@id/changePredictInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePredictInfoFragment"
+        android:name="com.example.aposs_admin.ui_controller.change_predict_info_fragment.ChangePredictInfoFragment"
+        android:label="ChangePredictInfoFragment" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
 </navigation>
