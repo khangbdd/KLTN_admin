@@ -86,7 +86,7 @@ class DetailPredictViewModel @Inject constructor(
     }
 
     fun loadSales(predictionDetailDTO: PredictionDetailDTO) {
-        if (predictionDetailDTO.productID == -1L) {
+        if (predictionDetailDTO.productID != -1L) {
             loadSaleByProduct(
                 predictionDetailDTO.productID,
                 predictionDetailDTO.frequency,
