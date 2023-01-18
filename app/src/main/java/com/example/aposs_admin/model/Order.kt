@@ -35,7 +35,14 @@ class Order(
             return simpleDate.format(orderTime)
         }
     val statusString: String
-        get() = status.toString()
+        get() = when (status) {
+                OrderStatus.Cancel -> "Đã hủy"
+                OrderStatus.Pending -> "Chờ xác nhận"
+                OrderStatus.Confirmed -> "Đã xác nhận"
+                OrderStatus.Delivering -> "Đang vận chuyển"
+                OrderStatus.Success -> "Thành công"
+            }
+
 
     val payingStatusString: String
         get() {

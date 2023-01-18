@@ -88,7 +88,7 @@ class CreatePredictViewModel @Inject constructor(
     }
 
     fun refreshLimit(frequencyFull: String) {
-        if (frequencyFull == "Month") {
+        if (frequencyFull == "Tháng") {
             refreshLimitMonth()
         } else {
             refreshLimitDate()
@@ -97,7 +97,7 @@ class CreatePredictViewModel @Inject constructor(
 
     fun createPredict(frequencyFull: String, successToasting: ()->Unit) {
         var frequency = "M"
-        if (frequencyFull == "Day") {
+        if (frequencyFull == "Ngày") {
             frequency = "D"
         }
         viewModelScope.launch(Dispatchers.IO) {

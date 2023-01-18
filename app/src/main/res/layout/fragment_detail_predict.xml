@@ -126,9 +126,9 @@
                     android:id="@+id/tv_description_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.detailPredictDTO.description}"
+                    android:text="@{viewModel.detailPredictDTO.displayDescription}"
                     android:textSize="16dp"
-                    android:textStyle="normal"
+                    android:textStyle="italic"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_description" />

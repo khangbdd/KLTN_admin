@@ -65,7 +65,13 @@ class CreatePredictFragment : Fragment() {
             }
         }
     }
-    private val listSelection = arrayListOf("Month", "Day")
+
+    override fun onResume() {
+        super.onResume()
+        setUpMeter()
+    }
+
+    private val listSelection = arrayListOf("Ngày", "Tháng")
     private fun setUpMeter() {
         val adapter =  ArrayAdapter(this.requireContext(), R.layout.item_auto_complete , listSelection)
         binding?.selector?.setAdapter(adapter)
@@ -82,12 +88,12 @@ class CreatePredictFragment : Fragment() {
             viewModel.refreshLimit(binding?.selector?.text.toString())
         }
         viewModel.limitNumberOfDate.observe(viewLifecycleOwner) {
-            if (binding?.selector?.text.toString() == "Day") {
+            if (binding?.selector?.text.toString() == "Ngày") {
                 binding?.tvNoteDate?.text = "*Tối đa $it ngày kể từ hôm nay."
             }
         }
         viewModel.limitNumberOfMonth.observe(viewLifecycleOwner) {
-            if (binding?.selector?.text.toString() == "Month") {
+            if (binding?.selector?.text.toString() == "Tháng") {
                 binding?.tvNoteDate?.text = "*Tối đa $it tháng kể từ hôm nay."
             }
         }
@@ -102,11 +108,11 @@ class CreatePredictFragment : Fragment() {
             Toast.makeText(this.requireContext(), "Thiếu thông tin", Toast.LENGTH_SHORT).show()
             return
         }
-        if (viewModel.numberOfDate.value.toString().toInt() > viewModel.limitNumberOfDate.value!! && binding?.selector?.text.toString() == "Day") {
+        if (viewModel.numberOfDate.value.toString().toInt() > viewModel.limitNumberOfDate.value!! && binding?.selector?.text.toString() == "Ngày") {
             Toast.makeText(this.requireContext(), "Vượt giới hạn dự báo", Toast.LENGTH_SHORT).show()
             return
         }
-        if (viewModel.numberOfDate.value.toString().toInt() > viewModel.limitNumberOfMonth.value!! && binding?.selector?.text.toString() == "Month") {
+        if (viewModel.numberOfDate.value.toString().toInt() > viewModel.limitNumberOfMonth.value!! && binding?.selector?.text.toString() == "Tháng") {
             Toast.makeText(this.requireContext(), "Vượt giới hạn dự báo", Toast.LENGTH_SHORT).show()
             return
         }

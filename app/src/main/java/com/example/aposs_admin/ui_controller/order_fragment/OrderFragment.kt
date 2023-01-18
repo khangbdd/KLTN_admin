@@ -77,6 +77,9 @@ class OrderFragment : Fragment() {
                 orderAdapter!!.submitList(ArrayList(orders))
             }
         }
+        viewModel.lstDisplay.observe(viewLifecycleOwner) {
+            configVisibilitiesOfListOrderStatus(it.size)
+        }
         initBottomBar()
         return binding?.root!!
     }
@@ -130,6 +133,16 @@ class OrderFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun configVisibilitiesOfListOrderStatus(currentSize: Int) {
+        if (currentSize == 0) {
+            binding?.orders?.visibility = View.GONE
+            binding?.noOrder?.visibility = View.VISIBLE
+            return
+        }
+        binding?.noOrder?.visibility = View.GONE
+        binding?.orders?.visibility = View.VISIBLE
     }
 
 }

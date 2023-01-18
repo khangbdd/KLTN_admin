@@ -165,18 +165,6 @@
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/chang_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:drawableStart="@drawable/ic_password"
-                android:drawablePadding="9dp"
-                android:paddingHorizontal="13dp"
-                android:text="Đổi mật khẩu"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
-
-            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

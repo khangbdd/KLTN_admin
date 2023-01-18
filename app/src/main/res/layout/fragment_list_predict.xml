@@ -111,7 +111,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_button_checkout"
-            android:text="tạo dự báo mới"
+            android:text="Tạo dự báo mới"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"

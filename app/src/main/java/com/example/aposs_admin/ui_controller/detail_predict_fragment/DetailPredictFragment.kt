@@ -1,11 +1,13 @@
 package com.example.aposs_admin.ui_controller.detail_predict_fragment
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -67,6 +69,7 @@ class DetailPredictFragment : Fragment() {
                 binding?.linechart?.visibility = View.GONE
                 binding?.noLinechart?.visibility = View.VISIBLE
             }
+            configVisibilities()
         }
         configureLineChart()
 //        viewModel.startIndex.observe(viewLifecycleOwner) {
@@ -110,6 +113,9 @@ class DetailPredictFragment : Fragment() {
         binding?.btnEdit?.setOnClickListener {
             val passingData = viewModel.detailPredictDTO.value!!
             findNavController().navigate(DetailPredictFragmentDirections.actionDetailPredictFragmentToChangePredictInfoFragment(passingData.name?:"", passingData.description?:"", passingData.id))
+        }
+        viewModel.detailPredictDTO.observe(viewLifecycleOwner) {
+            configVisibilities()
         }
         return binding?.root!!
     }
@@ -189,5 +195,15 @@ class DetailPredictFragment : Fragment() {
         dataSet.setDrawValues(true)
         return dataSet
         return LineDataSet(entries, label)
+    }
+
+    private fun configVisibilities() {
+        if (viewModel.detailPredictDTO.value?.description != null) {
+            binding?.tvDescriptionInfo?.setTypeface(null, Typeface.NORMAL)
+        }
+        if (viewModel.detailPredictDTO.value?.productID == -1L) {
+            binding?.tvProduct?.visibility = View.GONE
+            binding?.tvProductInfo?.visibility = View.GONE
+        }
     }
 }

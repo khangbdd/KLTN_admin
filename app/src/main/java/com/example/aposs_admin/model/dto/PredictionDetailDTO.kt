@@ -21,4 +21,6 @@ data class PredictionDetailDTO (
     fun getFullFromToDate(): String {
         return "$fromDate - $toDate"
     }
+
+    fun getDisplayDescription(): String = description?:"Chưa có mô tả dự báo"
 }
