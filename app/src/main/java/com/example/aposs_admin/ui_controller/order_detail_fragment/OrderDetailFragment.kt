@@ -84,6 +84,7 @@ class OrderDetailFragment : Fragment() {
             }
         }
         loadToken()
+        setVisibilities()
         return binding?.root!!
     }
 
@@ -128,4 +129,13 @@ class OrderDetailFragment : Fragment() {
         }
     }
 
+    private fun setVisibilities() {
+        if (viewModel.detailOrder.value?.status == OrderStatus.Cancel) {
+            binding?.reason?.visibility = View.VISIBLE
+            binding?.reasonString?.visibility = View.VISIBLE
+            return
+        }
+        binding?.reason?.visibility = View.GONE
+        binding?.reasonString?.visibility = View.GONE
+    }
 }

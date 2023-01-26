@@ -221,11 +221,39 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
+                    <TextView
+                        android:id="@+id/reason"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/status"
+                        android:layout_marginHorizontal="25dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="Lý do hủy: "
+                        android:textColor="#219653"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/reasonString"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/status"
+                        android:text="@{viewModel.detailOrder.cancelReason}"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginHorizontal="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_toEndOf="@+id/reason"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
                     <View
                         android:id="@+id/divider4"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_below="@id/status"
+                        android:layout_below="@id/reason"
                         android:layout_marginHorizontal="25dp"
                         android:background="@color/black"
                         android:elevation="1dp" />
