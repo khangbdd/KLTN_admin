@@ -23,4 +23,8 @@ class CategoryRepository @Inject constructor() {
     suspend fun deleteCategory(accessToken: String, id: Long): Response<Unit>{
         return categoryService.deleteCategory(accessToken, id)
     }
+
+    suspend fun updateOldCategory(accessToken: String,newCategory: NewCategory): Response<Unit>{
+        return categoryService.updateCategory(accessToken, newCategory)
+    }
 }

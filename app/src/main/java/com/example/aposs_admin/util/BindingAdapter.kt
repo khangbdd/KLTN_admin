@@ -115,6 +115,7 @@ fun bindListCategoryImageRecyclerView(recyclerView: RecyclerView, images: List<I
 @BindingAdapter("totalItemInformation")
 fun bindingAdditionalText(textView:TextView, additionalInformation: String?){
     if (additionalInformation != null){
+        textView.text = "Danh sách hình ảnh"
         val textViewText = textView.text.toString() + " (" + additionalInformation + "):"
         textView.text = textViewText
     }

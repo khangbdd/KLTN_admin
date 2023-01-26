@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.TextView
@@ -58,8 +59,11 @@ class DetailCategoryFragment : Fragment(), CategoryAndSubcategoryAdapter.OnClick
             onOpenDeleteDialog()
         }
         setUpLoadingDialog()
+        val imageCount = viewModel.currentCategory.value!!.images.size.toString() +"/5"
+        viewModel.totalCategoryImage.postValue(imageCount)
         return binding.root
     }
+
 
     override fun onClick(position: Int) {
         viewModel.setCurrentSubcategory(position)

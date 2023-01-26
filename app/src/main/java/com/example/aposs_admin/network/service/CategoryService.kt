@@ -17,6 +17,12 @@ interface CategoryService {
         @Body newCategory: NewCategory
     ): Response<Unit>
 
+    @PUT("industry")
+    suspend fun updateCategory(
+        @Header("Authorization") accessToken: String,
+        @Body newCategory: NewCategory
+    ): Response<Unit>
+
     @DELETE("industry/{id}")
     suspend fun deleteCategory(
         @Header("Authorization") accessToken: String,

@@ -1,21 +1,23 @@
 package com.example.aposs_admin.viewmodels
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.aposs_admin.model.DetailCategory
-import com.example.aposs_admin.model.HomeProduct
-import com.example.aposs_admin.model.Image
-import com.example.aposs_admin.model.Subcategory
+import com.example.aposs_admin.model.*
 import com.example.aposs_admin.model.dto.*
 import com.example.aposs_admin.network.AuthRepository
 import com.example.aposs_admin.network.CategoryRepository
 import com.example.aposs_admin.network.KindRepository
 import com.example.aposs_admin.util.LoadingStatus
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.net.SocketTimeoutException
+import java.time.LocalDateTime
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.stream.Collectors
 import javax.inject.Inject
 
@@ -106,6 +108,41 @@ class AllCategoryViewModel @Inject constructor(
                     }catch (e: Exception){
                         if (e is SocketTimeoutException) {
                             addNewCategory(newCategory)
+                        } else {
+                            uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                            Log.e("Exception", e.toString())
+                        }
+                    }
+                }else{
+                    uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                }
+            }
+        }
+    }
+
+    fun updateOldCategory(newCategory: NewCategory){
+        viewModelScope.launch(Dispatchers.IO) {
+            runBlocking {
+                val accessToken = authRepository.getCurrentAccessTokenFromRoom()
+                if (!accessToken.isNullOrBlank()) {
+                    try {
+                        val response = categoriesRepository.updateOldCategory(accessToken, newCategory)
+                        if (response.isSuccessful) {
+                            uploadCategoryStatus.postValue(LoadingStatus.Success)
+                        } else {
+                            if (response.code() == 401) {
+                                if (authRepository.loadNewAccessTokenSuccess()) {
+                                    updateOldCategory(newCategory)
+                                } else {
+                                    uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                                }
+                            } else {
+                                uploadCategoryStatus.postValue(LoadingStatus.Fail)
+                            }
+                        }
+                    }catch (e: Exception){
+                        if (e is SocketTimeoutException) {
+                            updateOldCategory(newCategory)
                         } else {
                             uploadCategoryStatus.postValue(LoadingStatus.Fail)
                             Log.e("Exception", e.toString())
@@ -363,5 +400,6 @@ class AllCategoryViewModel @Inject constructor(
             images = images
         )
     }
+
 
 }

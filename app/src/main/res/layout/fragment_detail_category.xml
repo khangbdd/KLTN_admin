@@ -110,13 +110,15 @@
                     android:textStyle="normal" />
 
                 <TextView
+                    android:id="@+id/tv_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    totalItemInformation="@{viewModel.totalCategoryImage}"
                     android:text="Danh sách hình ảnh"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+<!--                    totalItemInformation="@{viewModel.totalCategoryImage}"-->
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listImage"
