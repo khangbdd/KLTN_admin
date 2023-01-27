@@ -223,7 +223,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
                     <TextView
                         android:id="@+id/reason"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/status"
@@ -236,7 +235,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
                     <TextView
                         android:id="@+id/reasonString"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/status"

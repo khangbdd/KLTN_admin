@@ -148,7 +148,7 @@ class OrderViewModel @Inject constructor(
     }
 
     private fun convertToOrder(orderDTO: OrderDTO): Order {
-        return Order(
+        var order =  Order(
             orderDTO.id,
             orderDTO.orderTime,
             orderDTO.orderStatus,
@@ -162,6 +162,8 @@ class OrderViewModel @Inject constructor(
             }.collect(Collectors.toList())),
             orderDTO.totalPrice
         )
+        order.cancelReason = orderDTO.cancelReason.toString()
+        return order
     }
 
     private fun convertToOrderItem(orderItemDTO: OrderItemDTO): OrderBillingItem {
