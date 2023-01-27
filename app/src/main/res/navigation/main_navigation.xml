@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_productsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_filterSubcategoryFragment"
+            app:destination="@id/filterSubcategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailProduct"
@@ -214,5 +217,25 @@
             android:name="id"
             app:argType="long"
             android:defaultValue="0L" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterProductFragment"
+        android:name="com.example.aposs_admin.ui_controller.filter_product_fragment.FilterProductFragment"
+        android:label="FilterProductFragment" >
+        <action
+            android:id="@+id/action_filterProductFragment_to_fragmentDetailProduct"
+            app:destination="@id/fragmentDetailProduct" />
+        <argument
+            android:name="kindId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterSubcategoryFragment"
+        android:name="com.example.aposs_admin.ui_controller.filter_subcategory_fragment.FilterSubcategoryFragment"
+        android:label="FilterSubcategoryFragment" >
+        <action
+            android:id="@+id/action_filterSubcategoryFragment_to_filterProductFragment"
+            app:destination="@id/filterProductFragment" />
     </fragment>
 </navigation>

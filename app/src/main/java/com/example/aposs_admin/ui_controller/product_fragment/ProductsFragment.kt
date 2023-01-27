@@ -67,6 +67,9 @@ class ProductsFragment : Fragment(), ViewTreeObserver.OnScrollChangedListener  {
         binding?.btnAdd?.setOnClickListener {
             findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToAddProductFragment())
         }
+        binding?.imgFilter?.setOnClickListener {
+            findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToFilterSubcategoryFragment())
+        }
     }
 
     private fun setUpSearchFilter() {
