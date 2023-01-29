@@ -1,5 +1,5 @@
 package com.example.aposs_admin.util
 
 object Constants {
-    const val BASE_URL = "https://aposs-backend-rkd5z6hxoa-as.a.run.app/api/v1/"
+    const val BASE_URL = "https://275f-14-186-111-142.ap.ngrok.io/api/v1/"
 }
