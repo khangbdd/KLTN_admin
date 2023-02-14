@@ -90,6 +90,28 @@
                 android:paddingHorizontal="20dp">
 
                 <TextView
+                    android:id="@+id/tv_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID: "
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_id_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{Long.toString(viewModel.detailPredictDTO.id)}"
+                    android:textSize="16dp"
+                    android:textStyle="normal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_id" />
+
+                <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,7 +120,7 @@
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_id_info" />
 
                 <TextView
                     android:id="@+id/tv_name_info"
@@ -220,6 +242,27 @@
                     app:layout_constraintLeft_toRightOf="@id/tv_period"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_product_info" />
+                <TextView
+                    android:id="@+id/tv_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dự báo theo: "
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tv_frequency_info"
+                    app:layout_constraintTop_toBottomOf="@id/tv_period" />
+
+                <TextView
+                    android:id="@+id/tv_frequency_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.detailPredictDTO.fullFrequency}"
+                    android:textSize="16dp"
+                    android:textStyle="normal"
+                    app:layout_constraintLeft_toRightOf="@id/tv_frequency"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_period" />
 
                 <TextView
                     android:id="@+id/tv_graph"
@@ -231,7 +274,7 @@
                     app:layout_constraintBottom_toTopOf="@id/frame_layout"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_period"
+                    app:layout_constraintTop_toBottomOf="@id/tv_frequency"
                     app:layout_constraintVertical_chainStyle="spread" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout

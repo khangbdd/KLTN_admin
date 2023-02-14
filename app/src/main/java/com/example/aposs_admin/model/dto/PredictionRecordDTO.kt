@@ -14,10 +14,18 @@ data class PredictionRecordDTO (
     var isActive: Boolean = true,
     var subcategoryId: Long = 0,
     var subcategoryName: String? = null,
-    var predictionStatus: PredictionStatus? = null
+    var predictionStatus: PredictionStatus? = null,
+    val frequency: String = "D",
 )
 {
     fun getFullFromToDate(): String {
         return "$fromDate - $toDate"
+    }
+
+    fun getFullFrequency(): String {
+        if (frequency == "D") {
+            return "Ngày"
+        }
+        return "Tháng"
     }
 }

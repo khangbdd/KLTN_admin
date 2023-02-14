@@ -23,4 +23,11 @@ data class PredictionDetailDTO (
     }
 
     fun getDisplayDescription(): String = description?:"Chưa có mô tả dự báo"
+
+    fun getFullFrequency(): String {
+        if (frequency == "D") {
+            return "Ngày"
+        }
+        return "Tháng"
+    }
 }

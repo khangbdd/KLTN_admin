@@ -89,12 +89,20 @@ class CreatePredictFragment : Fragment() {
         }
         viewModel.limitNumberOfDate.observe(viewLifecycleOwner) {
             if (binding?.selector?.text.toString() == "Ngày") {
-                binding?.tvNoteDate?.text = "*Tối đa $it ngày kể từ hôm nay."
+                if (it == 0) {
+                    binding?.tvNoteDate?.text = "Không đủ dữ liệu để tiến hành dự báo"
+                } else {
+                    binding?.tvNoteDate?.text = "*Tối đa $it ngày kể từ hôm nay."
+                }
             }
         }
         viewModel.limitNumberOfMonth.observe(viewLifecycleOwner) {
             if (binding?.selector?.text.toString() == "Tháng") {
-                binding?.tvNoteDate?.text = "*Tối đa $it tháng kể từ hôm nay."
+                if (it == 0) {
+                    binding?.tvNoteDate?.text = "Không đủ dữ liệu để tiến hành dự báo"
+                } else {
+                    binding?.tvNoteDate?.text = "*Tối đa $it tháng kể từ hôm nay."
+                }
             }
         }
         viewModel.selectedProductId.observe(viewLifecycleOwner) {

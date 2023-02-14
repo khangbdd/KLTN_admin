@@ -153,7 +153,7 @@ class DetailPredictFragment : Fragment() {
         binding?.linechart?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
         binding?.linechart?.layoutParams?.width = ViewGroup.LayoutParams.MATCH_PARENT
         binding?.linechart?.data = lineData
-        binding?.linechart?.setVisibleXRangeMaximum(10F)
+        binding?.linechart?.setVisibleXRangeMaximum(40F)
         binding?.linechart?.notifyDataSetChanged()
         binding?.linechart?.moveViewToX(viewModel.listFullDate.value!!.size.toFloat())
     }
@@ -206,4 +206,5 @@ class DetailPredictFragment : Fragment() {
             binding?.tvProductInfo?.visibility = View.GONE
         }
     }
+
 }
